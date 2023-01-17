@@ -30,7 +30,7 @@ class Machine:
 
     paper_money = [500, 1000, 2000, 5000, 10000]
 
-    coin_reserve = {5: 100, 10: 100, 20: 100, 50: 100, 100: 100, 200: 100}
+    coin_reserve = {5: 100, 10: 0, 20: 0, 50: 0, 100: 0, 200: 100}
 
     current_user_transaction_record = []
 
@@ -154,25 +154,44 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
 
     # todo: add  ... 'AND' coin_reserve[50] > 0 etc
     if change_dispensed > 0:
-
+#100
         if change_dispensed >= 100 and Machine.coin_reserve[100] > 0:
             change_counter.append(100)
             Machine.coin_reserve[100] -= 1
             b = change_dispensed - 100
         else:
             b = change_dispensed
-#TODO add a modulus setup here for 50c
+
+#50
         if b >= 50 and change_dispensed >= 150 and Machine.coin_reserve[50] > 0:
-            change_counter.append(50)
-            Machine.coin_reserve[50] -= 1
-            c = b - 50
-        elif b >= 50:
-            change_counter.append(50)
-            Machine.coin_reserve[50] -= 1
-            c = change_dispensed - 50
+            c = change_dispensed - 150
+            z = b // 50
+
+            if b % 50 == 0:
+                for i in range(z):
+                    if Machine.coin_reserve[50] > 0:
+                        change_counter.append(50)
+                        Machine.coin_reserve[50] -= 1
+                    c = 0
+            else:
+                for i in range(z):
+                    if Machine.coin_reserve[50] > 0:
+                        change_counter.append(50)
+                        Machine.coin_reserve[50] -= 1
+                c = b - (z * 50)
+
+        elif b >= 50 and Machine.coin_reserve[50] > 0:
+            z = b // 20
+            for i in range(z):
+                change_counter.append(50)
+                Machine.coin_reserve[50] -= 1
+            c = b - (z * 50)
         else:
             c = b
 
+
+
+#20
         if c >= 20 and change_dispensed >= 170 and Machine.coin_reserve[20] > 0:
             d = change_dispensed - 170
             x = c // 20
@@ -189,6 +208,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
                         change_counter.append(20)
                         Machine.coin_reserve[20] -= 1
                 d = c - (x * 20)
+
         elif c >= 20 and Machine.coin_reserve[20] > 0:
             x = c // 20
             for i in range(x):
@@ -199,31 +219,43 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
             d = c
 
 
-
+#10
 # TODO: continue adjusting here onwards
-        if d >= 10 and change_dispensed >= 180:
+        if d >= 10 and change_dispensed >= 180 and Machine.coin_reserve[10] > 0:
             e = change_dispensed - 180
             y = d // 10
 
             if d % 10 == 0:
                 for i in range(y):
-                    change_counter.append(10)
+                    if Machine.coin_reserve[10] > 0:
+                        change_counter.append(10)
+                        Machine.coin_reserve[10] -= 1
+
                     e = 0
             else:
                 for i in range(y):
-                    change_counter.append(10)
+                    if Machine.coin_reserve[10] > 0:
+                        change_counter.append(10)
+                        Machine.coin_reserve[10] -= 1
                 e = d - (y * 10)
-        elif d >= 10:
+
+        elif d >= 10 and Machine.coin_reserve[10] > 0:
             y = d // 10
             for i in range(y):
                 change_counter.append(10)
+                Machine.coin_reserve[10] -= 1
             e = d - (y * 10)
         else:
             e = d
 
+#5
         if e >= 5:
             change_counter.append(5)
+            Machine.coin_reserve[5] -= 1
     #todo add a no coins available clause
+    else:
+        print("Unfortunately Machine does not contain any change.. Enter MAintenance mode to restock...")
+        change_counter = 0
     return change_counter
 
 
@@ -281,7 +313,8 @@ def insert_coins(transactions_total):
         change = total_coins_entered - transactions_total
         print("CHANGE GIVEN: ${:.2f}, ITEM(S) DISPENSED:".format(change / 100))
 
-    else:
+    elif total_coins_entered == transactions_total:
+        change = 0
         print("CHANGE GIVEN: $0.00, ITEM(S) DISPENSED:")
 
     for i in Machine.current_user_transaction_record:
@@ -643,7 +676,7 @@ def welcome_message(machine_state):
 
 #================================================================
 
-
+"""
 class Maintenance:
 
 
@@ -655,9 +688,9 @@ class Maintenance:
         else:
             Maintenance.state = "* WORKING *"
             Maintenance.machine_status = True
+"""
 
-
-
+"""
 def maintenance():
 
     while True:
@@ -695,7 +728,7 @@ def maintenance():
 
 
 maintenance()
-
+"""
 
 
 
