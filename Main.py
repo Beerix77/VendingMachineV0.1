@@ -1,6 +1,6 @@
-# Date: January 2022 (13/01/22)
+# Date: January 2022 (17/01/22)
 # Name: Andrew Matysiak
-# Description: VENDING_MACHINE v(N/A) --- CURRENT WIP
+# Description: VENDING_MACHINE v0.1 --- CURRENT WIP
 
 # NOTES:
 # todo: MAINTENANCE mode create a KEY == ie len(product_list +1) etc for adding new unlisted items
