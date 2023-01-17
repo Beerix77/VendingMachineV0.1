@@ -30,7 +30,7 @@ class Machine:
 
     paper_money = [500, 1000, 2000, 5000, 10000]
 
-    coin_reserve = {5: 100, 10: 0, 20: 0, 50: 0, 100: 0, 200: 100}
+    coin_reserve = {5: 23, 10: 0, 20: 0, 50: 0, 100: 1, 200: 100}
 
     current_user_transaction_record = []
 
@@ -138,12 +138,6 @@ def goodbye_message():
 
 
 
-
-
-
-
-#  coin_reserve = {5: 100, 10: 100, 20: 100, 50: 100, 100: 100, 200: 100}
-
 def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date, coins, items], [machine coins (coin_reserve)], [change given (value)]]
 
     change_counter = []
@@ -152,110 +146,117 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
         if type(i) == int:
             machine_coins[i] += 1       # adds coins to machine reserve
 
-    # todo: add  ... 'AND' coin_reserve[50] > 0 etc
     if change_dispensed > 0:
-#100
+
+# 100c
         if change_dispensed >= 100 and Machine.coin_reserve[100] > 0:
-            change_counter.append(100)
             Machine.coin_reserve[100] -= 1
+            change_counter.append(100)
             b = change_dispensed - 100
         else:
             b = change_dispensed
 
-#50
-        if b >= 50 and change_dispensed >= 150 and Machine.coin_reserve[50] > 0:
-            c = change_dispensed - 150
-            z = b // 50
-
-            if b % 50 == 0:
-                for i in range(z):
-                    if Machine.coin_reserve[50] > 0:
-                        change_counter.append(50)
-                        Machine.coin_reserve[50] -= 1
-                    c = 0
-            else:
-                for i in range(z):
-                    if Machine.coin_reserve[50] > 0:
-                        change_counter.append(50)
-                        Machine.coin_reserve[50] -= 1
-                c = b - (z * 50)
-
-        elif b >= 50 and Machine.coin_reserve[50] > 0:
-            z = b // 20
-            for i in range(z):
-                change_counter.append(50)
-                Machine.coin_reserve[50] -= 1
-            c = b - (z * 50)
-        else:
-            c = b
+        print("Test1", b)
 
 
+# 50c
+        x = b // 50     # z = number of times 50c can go into change remaining (b)
+        if b >= 50 and Machine.coin_reserve[50] >= x:    # here have enough 50c for ALL calcs
 
-#20
-        if c >= 20 and change_dispensed >= 170 and Machine.coin_reserve[20] > 0:
-            d = change_dispensed - 170
-            x = c // 20
-
-            if c % 20 == 0:
-                for i in range(x):
-                    if Machine.coin_reserve[20] > 0:
-                        change_counter.append(20)
-                        Machine.coin_reserve[20] -= 1
-                    d = 0
-            else:
-                for i in range(x):
-                    if Machine.coin_reserve[20] > 0:
-                        change_counter.append(20)
-                        Machine.coin_reserve[20] -= 1
-                d = c - (x * 20)
-
-        elif c >= 20 and Machine.coin_reserve[20] > 0:
-            x = c // 20
             for i in range(x):
-                change_counter.append(20)
-                Machine.coin_reserve[20] -= 1
-            d = c - (x * 20)
-        else:
-            d = c
+                Machine.coin_reserve[50] -= 1
+                change_counter.append(50)
+                b -= 50
+            print("Test2", b)
 
 
-#10
-# TODO: continue adjusting here onwards
-        if d >= 10 and change_dispensed >= 180 and Machine.coin_reserve[10] > 0:
-            e = change_dispensed - 180
-            y = d // 10
+        else:                                           # here DON'T have enough 50c for calcs
+            for i in range(Machine.coin_reserve[50]):
+                Machine.coin_reserve[50] -= 1
+                change_counter.append(50)
+                b -= 50
+            print("Test3", b)
 
-            if d % 10 == 0:
-                for i in range(y):
-                    if Machine.coin_reserve[10] > 0:
-                        change_counter.append(10)
-                        Machine.coin_reserve[10] -= 1
+# 20c
+        y = b // 20  # y = number of times 20c can go into change remaining (b)
+        if b >= 20 and Machine.coin_reserve[20] >= y:  # here have enough 20c for ALL calcs
 
-                    e = 0
-            else:
-                for i in range(y):
-                    if Machine.coin_reserve[10] > 0:
-                        change_counter.append(10)
-                        Machine.coin_reserve[10] -= 1
-                e = d - (y * 10)
-
-        elif d >= 10 and Machine.coin_reserve[10] > 0:
-            y = d // 10
             for i in range(y):
-                change_counter.append(10)
-                Machine.coin_reserve[10] -= 1
-            e = d - (y * 10)
-        else:
-            e = d
+                Machine.coin_reserve[20] -= 1
+                change_counter.append(20)
+                b -= 20
+            print("Test4", b)
 
-#5
-        if e >= 5:
-            change_counter.append(5)
-            Machine.coin_reserve[5] -= 1
-    #todo add a no coins available clause
-    else:
-        print("Unfortunately Machine does not contain any change.. Enter MAintenance mode to restock...")
-        change_counter = 0
+
+        else:  # here DON'T have enough 20c for calcs
+            for i in range(Machine.coin_reserve[20]):
+                Machine.coin_reserve[20] -= 1
+                change_counter.append(20)
+                b -= 20
+            print("Test5", b)
+
+# 10c
+        z = b // 10  # z = number of times 10c can go into change remaining (b)
+        if b >= 10 and Machine.coin_reserve[10] >= z:  # here have enough 10c for ALL calcs
+
+            for i in range(z):
+                Machine.coin_reserve[10] -= 1
+                change_counter.append(10)
+                b -= 10
+            print("Test6", b)
+
+
+        else:  # here DON'T have enough 10c for calcs
+            for i in range(Machine.coin_reserve[10]):
+                Machine.coin_reserve[10] -= 1
+                change_counter.append(10)
+                b -= 10
+            print("Test7", b)
+
+
+# 5c
+        w = b // 5  # z = number of times 5c can go into change remaining (b)
+        if b >= 5 and Machine.coin_reserve[5] >= w:  # here have enough 5c for ALL calcs
+
+            for i in range(w):
+                Machine.coin_reserve[5] -= 1
+                change_counter.append(5)
+                b -= 5
+            print("Test8", b)
+
+
+
+        elif b >= 5 and Machine.coin_reserve[5] >= w:
+            print("Test9", b)
+
+            print("Unfortunately Vending Machine does not contain enough coins to give CORRECT change.. Contact Admin/Maintenance mode to restock...")
+            change_counter = ["No change given...<No change available in Vending Machine"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    elif change_dispensed == 0:
+        change_counter = ["No change given...<Correct coins inserted>"]
+
+
+
+
+
+
+
     return change_counter
 
 
@@ -333,7 +334,7 @@ def insert_coins(transactions_total):
 
 
 
-    # todo working here:
+
 
 
 
@@ -348,7 +349,10 @@ def insert_coins(transactions_total):
     print(Machine.transaction_history)                               # [Date, coins, items]
     print("data sent to coin calculator...TESTING")
 
+    # todo: (BELOW) remove 'print' keyword only once finished testing...fix 'change' parameter
     print(adjust_coin_reserve(Machine.transaction_history, Machine.coin_reserve, change))    #[Date, coins, items], [machine coins], [change given]]
+
+
     goodbye_message() #keep and un-comment later
 
     #todo: remove PRINT above 'print(adjust_coin_reserve(Machine.transac.....)' etc
