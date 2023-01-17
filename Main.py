@@ -1,11 +1,14 @@
-# Date: January 2022 (13/01/22)
+# Date: January 2022 (17/01/22)
 # Name: Andrew Matysiak
-# Description: VENDING_MACHINE v(N/A) --- CURRENT WIP
+# Description: VENDING_MACHINE v0.1 --- CURRENT WIP
 
 # NOTES:
 # todo: MAINTENANCE mode create a KEY == ie len(product_list +1) etc for adding new unlisted items
 # todo: all def functions into a class???
 # todo: auto Alert Message when enter maintenance mode if ANY supply == 0
+# todo: write statistics etc to File.
+# todo: ['17-01-2023', '17-01-2023', 200, 200, 200, 200, 'Coffee', 'Cola', 'Cola', 200, 5, 5, 5, 5, 10, 50, 50, 50, 50, 200, 'Cola', 'Coffee']
+#       above output after two cycles of vending...FIX
 
 from datetime import datetime
 
@@ -149,44 +152,55 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
         if type(i) == int:
             machine_coins[i] += 1       # adds coins to machine reserve
 
-
+    # todo: add  ... 'AND' coin_reserve[50] > 0 etc
     if change_dispensed > 0:
 
-        if change_dispensed >= 100:  # todo: add  ... 'AND' coin_reserve[50] > 0 etc
+        if change_dispensed >= 100 and Machine.coin_reserve[100] > 0:
             change_counter.append(100)
+            Machine.coin_reserve[100] -= 1
             b = change_dispensed - 100
         else:
             b = change_dispensed
-
-        if b >= 50 and change_dispensed >= 150:
+#TODO add a modulus setup here for 50c
+        if b >= 50 and change_dispensed >= 150 and Machine.coin_reserve[50] > 0:
             change_counter.append(50)
+            Machine.coin_reserve[50] -= 1
             c = b - 50
         elif b >= 50:
             change_counter.append(50)
+            Machine.coin_reserve[50] -= 1
             c = change_dispensed - 50
         else:
             c = b
 
-        if c >= 20 and change_dispensed >= 170:
+        if c >= 20 and change_dispensed >= 170 and Machine.coin_reserve[20] > 0:
             d = change_dispensed - 170
             x = c // 20
 
             if c % 20 == 0:
                 for i in range(x):
-                    change_counter.append(20)
+                    if Machine.coin_reserve[20] > 0:
+                        change_counter.append(20)
+                        Machine.coin_reserve[20] -= 1
                     d = 0
             else:
                 for i in range(x):
-                    change_counter.append(20)
+                    if Machine.coin_reserve[20] > 0:
+                        change_counter.append(20)
+                        Machine.coin_reserve[20] -= 1
                 d = c - (x * 20)
-        elif c >= 20:
+        elif c >= 20 and Machine.coin_reserve[20] > 0:
             x = c // 20
             for i in range(x):
                 change_counter.append(20)
+                Machine.coin_reserve[20] -= 1
             d = c - (x * 20)
         else:
             d = c
 
+
+
+# TODO: continue adjusting here onwards
         if d >= 10 and change_dispensed >= 180:
             e = change_dispensed - 180
             y = d // 10
@@ -209,7 +223,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
 
         if e >= 5:
             change_counter.append(5)
-
+    #todo add a no coins available clause
     return change_counter
 
 
@@ -610,7 +624,8 @@ def restart():
 
 
 def turn_on():
-    welcome_message()
+    machine_mode = "*WORKING*"
+    welcome_message(machine_mode)
     main_menu()
 
 
@@ -619,12 +634,69 @@ def wait_time():
 
 
 
-def welcome_message():
+def welcome_message(machine_state):
     print("")
     print("=" * 61)
-    print("*" * 5 + " WELCOME!!! PYTHON VENDING MACHINE: *WORKING* mode " + "*" * 5)
+    print("*" * 5 + " WELCOME!!! PYTHON VENDING MACHINE: " + machine_state + " mode " + "*" * 5)
     print("=" * 61 + "\t", Machine.current_date)
 # TODO: variable for: WORKING/MAINTENANCE mode
+
+#================================================================
+
+
+class Maintenance:
+
+
+
+    def status(self, current_status):
+        if current_status:
+            Maintenance.state = "* MAINTENANCE *"
+            Maintenance.machine_status = False
+        else:
+            Maintenance.state = "* WORKING *"
+            Maintenance.machine_status = True
+
+
+
+def maintenance():
+
+    while True:
+        print("*" * 44)
+        print("*** Welcome to CUSTOMER MAINTENANCE mode ***")
+        print("Current machine status:", Maintenance.state)
+        print("Please choose from the following:")
+        print("1) Change Vending Machine STATUS to WORKING/MAINTENANCE mode")
+        print("2) Add Inventory")
+
+        customer = input("> ")
+
+        if int(customer) == 1:
+
+            Maintenance.status(Maintenance.machine_status)
+
+        elif int(customer) == 2:
+            try:
+                items = []
+                #vendor = VendingMachine()
+                name = input("Enter item: ")
+                price = int(input("Enter price (in cents): "))
+                count = int(input("Enter count of item: "))
+                ingredients = input("Sugar available?: ")
+                items.append(name)
+                items.append(price)
+                items.append(count)
+                items.append(ingredients)
+                print(items)
+
+            except ValueError:
+                print("please enter a valid number...")
+        else:
+            continue
+
+
+maintenance()
+
+
 
 
 # =============================================== MAIN BODY BELOW =====================================================
