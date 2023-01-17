@@ -30,7 +30,7 @@ class Machine:
 
     paper_money = [500, 1000, 2000, 5000, 10000]
 
-    coin_reserve = {5: 8, 10: 0, 20: 0, 50: 0, 100: 1, 200: 100}
+    coin_reserve = {5: 6, 10: 0, 20: 0, 50: 0, 100: 1, 200: 100}
 
     current_user_transaction_record = []
 
@@ -170,7 +170,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
             print("Test2", b)
 
 
-        else:                                           # here DON'T have enough 50c for calcs
+        elif b >= 50 and Machine.coin_reserve[50] <= x:                                           # here DON'T have enough 50c for calcs
             for i in range(Machine.coin_reserve[50]):
                 Machine.coin_reserve[50] -= 1
                 change_counter.append(50)
@@ -188,7 +188,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
             print("Test4", b)
 
 
-        else:  # here DON'T have enough 20c for calcs
+        elif b >= 20 and Machine.coin_reserve[20] <= y:  # here DON'T have enough 20c for calcs
             for i in range(Machine.coin_reserve[20]):
                 Machine.coin_reserve[20] -= 1
                 change_counter.append(20)
@@ -206,7 +206,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
             print("Test6", b)
 
 
-        else:  # here DON'T have enough 10c for calcs
+        elif b >= 10 and Machine.coin_reserve[10] <= z:  # here DON'T have enough 10c for calcs
             for i in range(Machine.coin_reserve[10]):
                 Machine.coin_reserve[10] -= 1
                 change_counter.append(10)
@@ -230,64 +230,29 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
             print("Test9", b)
             print("Unfortunately Vending Machine does not contain enough coins to give CORRECT change.. Contact Admin/Maintenance mode to restock...")
 
-
-            print(change_counter) # TEST
-
-
-
-
-            # TODO: COINS NEED TO BE RESTOCKED IF CHANGE UNABLE TO BE GIVEN>>>>>
+            print(Machine.coin_reserve) # for TEST remove
             for i in change_counter:
-
-
-
-
-
-
-
-
-
-
-
+                Machine.coin_reserve[i] += 1        # coins of 'change-bucket' are returned to coin_reserve
+            print(Machine.coin_reserve) # for TEST remove
 
             change_counter = ["No change given...<No change available in Vending Machine"] # coin values List is replaced with message
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     elif change_dispensed == 0:
-        change_counter = ["No change given...<Correct coins inserted>"]
-
-
-
-
-
+        change_counter = ["No change given...<Correct coins were inserted>"]
 
 
     return change_counter
 
 
-# todo: working on this function here: === 1/1 =========================================================================
 def insert_coins(transactions_total):
     print("")
                                                         # TODO: do S-007 here...
     total_coins_entered = 0
     total_coin_list = []
+    change = 0 # TEST..remove?
 
     while total_coins_entered < transactions_total:
         print("TOTAL owing: ${:.2f}".format(Machine.user_total_cost / 100))
@@ -295,7 +260,7 @@ def insert_coins(transactions_total):
 
         try:
 
-            inserted_coin = input("INSERT COINS or 'R' to REFUND coins and exit PAYMENT: ").strip().lower()
+            inserted_coin = input("INSERT COINS or 'R' to REFUND coins/EXIT payment: ").strip().lower()
             print("")
             if inserted_coin == 'r':
                 refund_coins(Machine.transaction_history)   # argument is a list of string numbers
@@ -337,7 +302,7 @@ def insert_coins(transactions_total):
         print("CHANGE GIVEN: ${:.2f}, ITEM(S) DISPENSED:".format(change / 100))
 
     elif total_coins_entered == transactions_total:
-        change = 0
+
         print("CHANGE GIVEN: $0.00, ITEM(S) DISPENSED:")
 
     for i in Machine.current_user_transaction_record:
@@ -360,7 +325,6 @@ def insert_coins(transactions_total):
 
 
 
-    # todo : update vending machine 'coin_reserve' ((+)inserted coins data & (-)if change is given)
     # todo : VendingMachine.transaction_history should be = [date, user_choice, items, coins_inserted]
 
 
@@ -371,20 +335,20 @@ def insert_coins(transactions_total):
     print(Machine.transaction_history)                               # [Date, coins, items]
     print("data sent to coin calculator...TESTING")
 
-    # todo: (BELOW) remove 'print' keyword only once finished testing...fix 'change' parameter
-    print(adjust_coin_reserve(Machine.transaction_history, Machine.coin_reserve, change))    #[Date, coins, items], [machine coins], [change given]]
 
 
-    goodbye_message() #keep and un-comment later
 
-    #todo: remove PRINT above 'print(adjust_coin_reserve(Machine.transac.....)' etc
+
+
+
+    adjust_coin_reserve(Machine.transaction_history, Machine.coin_reserve, change)   #[Date, coins, items], [machine coins], [change given]]
+    goodbye_message()
+
     #exit()
 
 
 
 
-
-# todo: working above=== insert_coin() function =======================================================================
 
 
 
