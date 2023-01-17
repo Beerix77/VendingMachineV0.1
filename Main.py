@@ -30,7 +30,7 @@ class Machine:
 
     paper_money = [500, 1000, 2000, 5000, 10000]
 
-    coin_reserve = {5: 23, 10: 0, 20: 0, 50: 0, 100: 1, 200: 100}
+    coin_reserve = {5: 8, 10: 0, 20: 0, 50: 0, 100: 1, 200: 100}
 
     current_user_transaction_record = []
 
@@ -226,11 +226,33 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
 
 
 
-        elif b >= 5 and Machine.coin_reserve[5] >= w:
+        elif b >= 5 and Machine.coin_reserve[5] <= w:
             print("Test9", b)
-
             print("Unfortunately Vending Machine does not contain enough coins to give CORRECT change.. Contact Admin/Maintenance mode to restock...")
-            change_counter = ["No change given...<No change available in Vending Machine"]
+
+
+            print(change_counter) # TEST
+
+
+
+
+            # TODO: COINS NEED TO BE RESTOCKED IF CHANGE UNABLE TO BE GIVEN>>>>>
+            for i in change_counter:
+
+
+
+
+
+
+
+
+
+
+
+
+            change_counter = ["No change given...<No change available in Vending Machine"] # coin values List is replaced with message
+
+
 
 
 
