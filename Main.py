@@ -27,7 +27,7 @@ class Machine:
 
     paper_money = [500, 1000, 2000, 5000, 10000]
 
-    coin_reserve = {5: 100, 10: 100, 20: 100, 50: 100, 100: 100, 200: 100}
+    coin_reserve = {5: 100, 10: 100, 20: 2, 50: 100, 100: 0, 200: 100}
 
     current_user_transaction_record = []
 
@@ -149,44 +149,55 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
         if type(i) == int:
             machine_coins[i] += 1       # adds coins to machine reserve
 
-
+    # todo: add  ... 'AND' coin_reserve[50] > 0 etc
     if change_dispensed > 0:
 
-        if change_dispensed >= 100:  # todo: add  ... 'AND' coin_reserve[50] > 0 etc
+        if change_dispensed >= 100 and Machine.coin_reserve[100] > 0:
             change_counter.append(100)
+            Machine.coin_reserve[100] -= 1
             b = change_dispensed - 100
         else:
             b = change_dispensed
-
-        if b >= 50 and change_dispensed >= 150:
+#TODO add a modulus setup here for 50c
+        if b >= 50 and change_dispensed >= 150 and Machine.coin_reserve[50] > 0:
             change_counter.append(50)
+            Machine.coin_reserve[50] -= 1
             c = b - 50
         elif b >= 50:
             change_counter.append(50)
+            Machine.coin_reserve[50] -= 1
             c = change_dispensed - 50
         else:
             c = b
 
-        if c >= 20 and change_dispensed >= 170:
+        if c >= 20 and change_dispensed >= 170 and Machine.coin_reserve[20] > 0:
             d = change_dispensed - 170
             x = c // 20
 
             if c % 20 == 0:
                 for i in range(x):
-                    change_counter.append(20)
+                    if Machine.coin_reserve[20] > 0:
+                        change_counter.append(20)
+                        Machine.coin_reserve[20] -= 1
                     d = 0
             else:
                 for i in range(x):
-                    change_counter.append(20)
+                    if Machine.coin_reserve[20] > 0:
+                        change_counter.append(20)
+                        Machine.coin_reserve[20] -= 1
                 d = c - (x * 20)
-        elif c >= 20:
+        elif c >= 20 and Machine.coin_reserve[20] > 0:
             x = c // 20
             for i in range(x):
                 change_counter.append(20)
+                Machine.coin_reserve[20] -= 1
             d = c - (x * 20)
         else:
             d = c
 
+
+
+# TODO: continue adjusting here onwards
         if d >= 10 and change_dispensed >= 180:
             e = change_dispensed - 180
             y = d // 10
@@ -209,7 +220,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
 
         if e >= 5:
             change_counter.append(5)
-
+    #todo add a no coins available clause
     return change_counter
 
 
