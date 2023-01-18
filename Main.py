@@ -644,13 +644,12 @@ def maintenance():
 
     while True:
         print("")
-        print("*" * 44)
-        print("*** Welcome to CUSTOMER MAINTENANCE mode ***")
-        print("Current machine status:", Machine.machine_state)
-        print("*" * 44 + "\t", Machine.current_date)
+        print("*" * 59)
+        print("***** Welcome to CUSTOMER ADMIN:", Machine.machine_state, "mode *****")
+        print("*" * 59 + "\t\t", Machine.current_date)
         print("")
         print("Please choose from the following:")
-        print("a) Add Coins to inventory")
+        print("a) Add Coins to machine coin reserve")
         print("b) Add Product to inventory")
         print("c) Transaction Records\Statistics\n")
         print("R) Return to MAIN MENU")
@@ -659,37 +658,76 @@ def maintenance():
 
         if is_valid(customer, ['a', 'b', 'c', 'r']):
             break
-# TODO: print(Machine.coin_reserve)
-    if customer == 'a':
-        try:
-            print(Machine.coin_reserve)
 
+
+
+    if customer == 'a':
+        print("Current Coin Reserve:")
+        for i, j in Machine.coin_reserve.items():
+            print("${:.2f}:\t\t{}".format(i / 100, j))
+        print("")
+
+        while True:
+            try:
+                restock = input("Enter coin to restock (in cents): ")
+
+
+
+
+
+
+            except KeyError:
+                print("Please enter a valid coin in cent denomination...")
+
+            except ValueError:
+                print("Please enter a valid integer number of coins...")
+
+
+
+
+    # todo: 'b'
+    elif customer == 'b':
+        try:
             items = []
             name = input("Enter item number: ")
             while True:
                 list_products()
 
-            price = int(input("Enter price (in cents): "))
-            count = int(input("Enter count of item: "))
-            ingredients = input("Sugar available?: ")
-            items.append(name)
-            items.append(price)
-            items.append(count)
-            items.append(ingredients)
-            print(items)
+                price = int(input("Enter price (in cents): "))
+                count = int(input("Enter count of item: "))
+                ingredients = input("Sugar available?: ")
+                items.append(name)
+                items.append(price)
+                items.append(count)
+                items.append(ingredients)
+                print(items)
+
+
+
+        except KeyError:
+            pass
 
         except ValueError:
-            print("please enter a valid letter choice...")
+            pass
 
-    elif customer == 'b':
-        pass
+
+
+
+
+
+
+
 
     elif customer == 'c':
         pass
 
+
+
+
+
+
     else:
         main_menu()
-
 
 
 
