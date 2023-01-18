@@ -411,7 +411,7 @@ def main_menu():
 
 
 
-# TODO: Working Above ======= c option =========================================================================
+# TODO: Working Above ======= c option (maintenance) ==================================================================
 
 
 
@@ -599,8 +599,7 @@ def select_product_menu():
 
 
 def turn_on():
-    machine_mode = "*WORKING*"
-    welcome_message(machine_mode)
+    welcome_message(Machine.machine_state)
     main_menu()
 
 
@@ -611,13 +610,16 @@ def wait_time(data):
     return wait
 
 
-# =====================================================================================================================
-
 def welcome_message(machine_state):
     print("")
-    print("=" * 61)
+    print("=" * 63)
     print("*" * 5 + " WELCOME!!! PYTHON VENDING MACHINE: " + machine_state + " mode " + "*" * 5)
-    print("=" * 61 + "\t", Machine.current_date)
+    print("=" * 63 + "\t\t", Machine.current_date)
+
+
+
+# =====================================================================================================================
+
 # TODO: variable for: WORKING/MAINTENANCE mode
 
 
@@ -635,28 +637,33 @@ class Maintenance:
             Maintenance.machine_status = True
 """
 
+# TODO: WORKING HERE:
+
 
 def maintenance():
+    Machine.machine_state = "* MAINTENANCE *"
 
     while True:
+        print("")
         print("*" * 44)
         print("*** Welcome to CUSTOMER MAINTENANCE mode ***")
         print("Current machine status:", Machine.machine_state)
+        print("*" * 44 + "\t", Machine.current_date)
+        print("")
         print("Please choose from the following:")
         print("a) Add Coins to inventory")
         print("b) Add Product to inventory")
         print("c) Transaction Records\Statistics\n")
+        print("R) Return to MAIN MENU")
 
-        customer = input("> ")
+        customer = input("> ").strip().lower()
 
-        if int(customer) == 1:
+        if is_valid(customer, ['a', 'b', 'c', 'r']):
+            break
 
-            Machine.machine_state.status(Maintenance.machine_status)
-
-        elif int(customer) == 2:
+        if customer == 'a':
             try:
                 items = []
-                #vendor = VendingMachine()
                 name = input("Enter item: ")
                 price = int(input("Enter price (in cents): "))
                 count = int(input("Enter count of item: "))
@@ -669,11 +676,16 @@ def maintenance():
 
             except ValueError:
                 print("please enter a valid number...")
+
+        elif customer == 'b':
+            pass
+
+        elif customer == 'c':
+            pass
+
         else:
-            continue
+            main_menu()
 
-
-maintenance()
 
 
 
