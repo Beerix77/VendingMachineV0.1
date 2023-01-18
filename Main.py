@@ -36,6 +36,8 @@ class Machine:
 
     user_total_cost = 0
 
+    machine_state = "* WORKING *"
+
     statistics = []
 
     transaction_history = []
@@ -136,7 +138,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
                 b -= 50
             #print("Test2", b)
 
-        elif b >= 50 and Machine.coin_reserve[50] <= x:                                           # here DON'T have enough 50c for calcs
+        elif b >= 50 and Machine.coin_reserve[50] <= x:     # here DON'T have enough 50c for calcs
             for i in range(Machine.coin_reserve[50]):
                 Machine.coin_reserve[50] -= 1
                 change_counter.append(50)
@@ -390,11 +392,10 @@ def main_menu():
         menu_choice = input("Please select from the following MAIN MENU (a, b, c or d):\n"
                             "a) List Products\n"
                             "b) Choose Product(s)\n"
-                            "c) Transaction Records\Statistics\n"
-                            "d) Customer Maintenance mode\n"
+                            "c) Customer Maintenance mode\n"
                             "> ").strip().lower()
         print("")
-        if is_valid(menu_choice, ['a', 'b', 'c', 'd']):
+        if is_valid(menu_choice, ['a', 'b', 'c']):
             break
 
     if menu_choice == 'a':
@@ -405,30 +406,12 @@ def main_menu():
         display_transactions_summary(Machine.current_user_transaction_record)
         select_product()
 
-
-
-
-
-
-
-
-    elif menu_choice == 'c':
-        pass
-
-
-
-
-
-
-
-
-
-
     else:
-        # menu_choice == 'd'
-        pass
+        maintenance()
 
-# TODO: Working Above =======b, c + d options=========================================================================
+
+
+# TODO: Working Above ======= c option =========================================================================
 
 
 
@@ -628,6 +611,8 @@ def wait_time(data):
     return wait
 
 
+# =====================================================================================================================
+
 def welcome_message(machine_state):
     print("")
     print("=" * 61)
@@ -635,7 +620,6 @@ def welcome_message(machine_state):
     print("=" * 61 + "\t", Machine.current_date)
 # TODO: variable for: WORKING/MAINTENANCE mode
 
-#================================================================
 
 """
 class Maintenance:
@@ -651,22 +635,23 @@ class Maintenance:
             Maintenance.machine_status = True
 """
 
-"""
+
 def maintenance():
 
     while True:
         print("*" * 44)
         print("*** Welcome to CUSTOMER MAINTENANCE mode ***")
-        print("Current machine status:", Maintenance.state)
+        print("Current machine status:", Machine.machine_state)
         print("Please choose from the following:")
-        print("1) Change Vending Machine STATUS to WORKING/MAINTENANCE mode")
-        print("2) Add Inventory")
+        print("a) Add Coins to inventory")
+        print("b) Add Product to inventory")
+        print("c) Transaction Records\Statistics\n")
 
         customer = input("> ")
 
         if int(customer) == 1:
 
-            Maintenance.status(Maintenance.machine_status)
+            Machine.machine_state.status(Maintenance.machine_status)
 
         elif int(customer) == 2:
             try:
@@ -689,7 +674,7 @@ def maintenance():
 
 
 maintenance()
-"""
+
 
 
 
