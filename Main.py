@@ -639,7 +639,6 @@ class Maintenance:
 
 # TODO: WORKING HERE:
 
-
 def maintenance():
     Machine.machine_state = "* MAINTENANCE *"
 
@@ -661,30 +660,33 @@ def maintenance():
         if is_valid(customer, ['a', 'b', 'c', 'r']):
             break
 
-        if customer == 'a':
-            try:
-                items = []
-                name = input("Enter item: ")
-                price = int(input("Enter price (in cents): "))
-                count = int(input("Enter count of item: "))
-                ingredients = input("Sugar available?: ")
-                items.append(name)
-                items.append(price)
-                items.append(count)
-                items.append(ingredients)
-                print(items)
+    if customer == 'a':
+        try:
+            items = []
+            name = input("Enter item number: ")
+            while True:
+                list_products()
 
-            except ValueError:
-                print("please enter a valid number...")
+            price = int(input("Enter price (in cents): "))
+            count = int(input("Enter count of item: "))
+            ingredients = input("Sugar available?: ")
+            items.append(name)
+            items.append(price)
+            items.append(count)
+            items.append(ingredients)
+            print(items)
 
-        elif customer == 'b':
-            pass
+        except ValueError:
+            print("please enter a valid letter choice...")
 
-        elif customer == 'c':
-            pass
+    elif customer == 'b':
+        pass
 
-        else:
-            main_menu()
+    elif customer == 'c':
+        pass
+
+    else:
+        main_menu()
 
 
 
