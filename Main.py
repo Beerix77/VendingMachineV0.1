@@ -30,7 +30,7 @@ class Machine:
 
     paper_money = [500, 1000, 2000, 5000, 10000]
 
-    coin_reserve = {5: 6, 10: 0, 20: 0, 50: 0, 100: 1, 200: 100}
+    coin_reserve = {5: 100, 10: 100, 20: 100, 50: 100, 100: 100, 200: 100}
 
     current_user_transaction_record = []
 
@@ -133,11 +133,6 @@ def goodbye_message():
     turn_on()
 
 
-
-
-
-
-
 def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date, coins, items], [machine coins (coin_reserve)], [change given (value)]]
 
     change_counter = []
@@ -147,7 +142,6 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
             machine_coins[i] += 1       # adds coins to machine reserve
 
     if change_dispensed > 0:
-
 # 100c
         if change_dispensed >= 100 and Machine.coin_reserve[100] > 0:
             Machine.coin_reserve[100] -= 1
@@ -156,7 +150,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
         else:
             b = change_dispensed
 
-        print("Test1", b)
+        #print("Test1", b)
 
 
 # 50c
@@ -167,15 +161,15 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
                 Machine.coin_reserve[50] -= 1
                 change_counter.append(50)
                 b -= 50
-            print("Test2", b)
-
+            #print("Test2", b)
 
         elif b >= 50 and Machine.coin_reserve[50] <= x:                                           # here DON'T have enough 50c for calcs
             for i in range(Machine.coin_reserve[50]):
                 Machine.coin_reserve[50] -= 1
                 change_counter.append(50)
                 b -= 50
-            print("Test3", b)
+            #print("Test3", b)
+
 
 # 20c
         y = b // 20  # y = number of times 20c can go into change remaining (b)
@@ -185,15 +179,15 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
                 Machine.coin_reserve[20] -= 1
                 change_counter.append(20)
                 b -= 20
-            print("Test4", b)
-
+            #print("Test4", b)
 
         elif b >= 20 and Machine.coin_reserve[20] <= y:  # here DON'T have enough 20c for calcs
             for i in range(Machine.coin_reserve[20]):
                 Machine.coin_reserve[20] -= 1
                 change_counter.append(20)
                 b -= 20
-            print("Test5", b)
+            #print("Test5", b)
+
 
 # 10c
         z = b // 10  # z = number of times 10c can go into change remaining (b)
@@ -203,15 +197,14 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
                 Machine.coin_reserve[10] -= 1
                 change_counter.append(10)
                 b -= 10
-            print("Test6", b)
-
+            #print("Test6", b)
 
         elif b >= 10 and Machine.coin_reserve[10] <= z:  # here DON'T have enough 10c for calcs
             for i in range(Machine.coin_reserve[10]):
                 Machine.coin_reserve[10] -= 1
                 change_counter.append(10)
                 b -= 10
-            print("Test7", b)
+            #print("Test7", b)
 
 
 # 5c
@@ -222,27 +215,21 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
                 Machine.coin_reserve[5] -= 1
                 change_counter.append(5)
                 b -= 5
-            print("Test8", b)
-
-
+            #print("Test8", b)
 
         elif b >= 5 and Machine.coin_reserve[5] <= w:
-            print("Test9", b)
+            #print("Test9", b)
             print("Unfortunately Vending Machine does not contain enough coins to give CORRECT change.. Contact Admin/Maintenance mode to restock...")
 
-            print(Machine.coin_reserve) # for TEST remove
+            print(Machine.coin_reserve) # for TEST remove (coins returned if not enough change)
             for i in change_counter:
                 Machine.coin_reserve[i] += 1        # coins of 'change-bucket' are returned to coin_reserve
-            print(Machine.coin_reserve) # for TEST remove
+            print(Machine.coin_reserve) # for TEST remove (coins returned if not enough change)
 
             change_counter = ["No change given...<No change available in Vending Machine"] # coin values List is replaced with message
 
-
-
-
     elif change_dispensed == 0:
         change_counter = ["No change given...<Correct coins were inserted>"]
-
 
     return change_counter
 
@@ -252,7 +239,7 @@ def insert_coins(transactions_total):
                                                         # TODO: do S-007 here...
     total_coins_entered = 0
     total_coin_list = []
-    change = 0 # TEST..remove?
+    change = 0 # leave this?
 
     while total_coins_entered < transactions_total:
         print("TOTAL owing: ${:.2f}".format(Machine.user_total_cost / 100))
@@ -288,25 +275,24 @@ def insert_coins(transactions_total):
         except ValueError:
             print("Please enter a valid coin 'cents value' or press 'R' to refund...")
 
-
     print("TOTAL: ${:.2f}".format(total_coins_entered / 100))
     print("")
 
 
 
-
-
-
-    if total_coins_entered > transactions_total:
+    if total_coins_entered >= transactions_total:
         change = total_coins_entered - transactions_total
-        print("CHANGE GIVEN: ${:.2f}, ITEM(S) DISPENSED:".format(change / 100))
+        print("CHANGE OWED: ${:.2f}".format(change / 100))
 
-    elif total_coins_entered == transactions_total:
 
-        print("CHANGE GIVEN: $0.00, ITEM(S) DISPENSED:")
+
+
+    print("Wait Time is", wait_time(Machine.current_user_transaction_record), "min(s)...")
+    print("ITEM(S) DISPENSED:")
+
 
     for i in Machine.current_user_transaction_record:
-        print(i.name)                                       # display items after >= correct coins inserted
+        print(i.name)                                       # dispense items after >= correct coins inserted
 
     for i in Machine.current_user_transaction_record:
         Machine.transaction_history.append(i.name)
@@ -315,9 +301,19 @@ def insert_coins(transactions_total):
 
 
 
-    Machine.user_total_cost = 0
-    Machine.current_user_transaction_record = []
 
+
+
+
+
+
+
+
+
+
+
+    Machine.user_total_cost = 0                     # reset after dispense
+    Machine.current_user_transaction_record = []    # reset after dispense
 
 
 
@@ -326,37 +322,24 @@ def insert_coins(transactions_total):
 
 
     # todo : VendingMachine.transaction_history should be = [date, user_choice, items, coins_inserted]
-
-
-
-
     # todo: for testing only below
+
+    """
     print("TESTING ONLY...")
     print(Machine.transaction_history)                               # [Date, coins, items]
     print("data sent to coin calculator...TESTING")
+    """
 
 
 
 
 
+    for i in (adjust_coin_reserve(Machine.transaction_history, Machine.coin_reserve, change)):   #[Date, coins, items], [machine coins], [change given]]
+        print("${:.2f}".format(i / 100))
 
 
-    adjust_coin_reserve(Machine.transaction_history, Machine.coin_reserve, change)   #[Date, coins, items], [machine coins], [change given]]
+
     goodbye_message()
-
-    #exit()
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -367,16 +350,7 @@ def refund_coins(coins):
     if len(coins) == 0:
         print("No coins refunded as none were inserted...")
     Machine.transaction_history = []    # reset coin history
-
     #exit()  # delete this later
-
-
-
-
-
-
-
-# todo ============================= working above 'insert-coins()'=====================================================
 
 
 def is_valid(data, choices):  # choices are in a list
@@ -384,6 +358,12 @@ def is_valid(data, choices):  # choices are in a list
         return True
     print("Please enter a valid choice...")
     return False
+
+
+
+
+
+
 
 
 def list_products():
@@ -412,12 +392,6 @@ def list_products():
     for i in Machine.supply_list:
         print("-) Item: {}, Count: {}".format(Machine.supply_list[i][0], Machine.supply_list[i][1]))
     # TODO: =============================================================================================
-
-
-
-
-
-
 
 
 
@@ -652,8 +626,27 @@ def turn_on():
     main_menu()
 
 
-def wait_time():
-    pass    #TODO: calc after full payment...
+def wait_time(data):
+    wait = 0
+
+    """
+    for i in data:
+       print(i)
+
+
+
+        #wait += [i][4]
+    """
+    return wait
+
+
+
+
+
+
+
+
+
 
 
 
