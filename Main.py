@@ -628,26 +628,9 @@ def turn_on():
 
 def wait_time(data):
     wait = 0
-
-    """
     for i in data:
-       print(i)
-
-
-
-        #wait += [i][4]
-    """
+        wait += i.time
     return wait
-
-
-
-
-
-
-
-
-
-
 
 
 def welcome_message(machine_state):
