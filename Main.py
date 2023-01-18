@@ -389,7 +389,7 @@ def list_products():
 def main_menu():
     while True:
         print("")
-        menu_choice = input("Please select from the following MAIN MENU (a, b, c or d):\n"
+        menu_choice = input("Please select from the following MAIN MENU (a, b, or c):\n"
                             "a) List Products\n"
                             "b) Choose Product(s)\n"
                             "c) Customer Maintenance mode\n"
@@ -659,9 +659,11 @@ def maintenance():
 
         if is_valid(customer, ['a', 'b', 'c', 'r']):
             break
-
+# TODO: print(Machine.coin_reserve)
     if customer == 'a':
         try:
+            print(Machine.coin_reserve)
+
             items = []
             name = input("Enter item number: ")
             while True:
