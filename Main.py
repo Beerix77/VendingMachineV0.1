@@ -638,7 +638,7 @@ class Maintenance:
 """
 
 # TODO: WORKING HERE:
-
+# todo seperate Welcome customer mode and customer meny to 2 seperate functons
 def maintenance():
     Machine.machine_state = "* MAINTENANCE *"
 
@@ -648,20 +648,21 @@ def maintenance():
         print("***** Welcome to CUSTOMER ADMIN:", Machine.machine_state, "mode *****")
         print("*" * 59 + "\t\t", Machine.current_date)
         print("")
-        print("Please choose from the following:")
+        print("Please choose from the following:\n")
         print("a) Add Coins to machine coin reserve")
         print("b) Add Product to inventory")
-        print("c) Transaction Records\Statistics\n")
-        print("R) Return to MAIN MENU")
+        print("c) Transaction Records\Statistics")
+        print("M) Return to MAIN MENU")
 
         customer = input("> ").strip().lower()
 
-        if is_valid(customer, ['a', 'b', 'c', 'r']):
+        if is_valid(customer, ['a', 'b', 'c', 'm']):
             break
 
 
 
     if customer == 'a':
+        print("")
         print("Current Coin Reserve:")
         for i, j in Machine.coin_reserve.items():
             print("${:.2f}:\t\t{}".format(i / 100, j))
@@ -669,7 +670,14 @@ def maintenance():
 
         while True:
             try:
-                restock = input("Enter coin to restock (in cents): ")
+                restock = input("Enter coin to restock (in cents), 'C' to return to CUSTOMER MENU: ").strip().lower()
+                if restock == 'c':
+                    maintenance()
+
+                elif int(restock) in Machine.coin_reserve.keys():
+                    print("Coin found")
+                    break
+
 
 
 
@@ -685,7 +693,7 @@ def maintenance():
 
 
 
-    # todo: 'b'
+    # todo: 'b' and onwards
     elif customer == 'b':
         try:
             items = []
