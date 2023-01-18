@@ -7,6 +7,8 @@
 # todo: all def functions into a class???
 # todo: auto Alert Message when enter maintenance mode if ANY supply == 0
 # todo: write statistics etc to File.
+# todo: At the beginning of each function, there is a string within triple quotation marks, called a docstring.
+#       It is used to explain how the function behaves. Style of the docstring can be found in PEP 257 Docstring Conventions
 # todo: ['17-01-2023', '17-01-2023', 200, 200, 200, 200, 'Coffee', 'Cola', 'Cola', 200, 5, 5, 5, 5, 10, 50, 50, 50, 50, 200, 'Cola', 'Coffee']
 #       above output after two cycles of vending...FIX
 
