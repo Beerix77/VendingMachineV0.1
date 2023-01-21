@@ -8,9 +8,10 @@
 # todo: auto Alert Message when enter maintenance mode if ANY supply == 0
 # todo: write statistics etc to File.
 # todo: At the beginning of each function, there is a string within triple quotation marks, called a docstring.
-#       It is used to explain how the function behaves. Style of the docstring can be found in PEP 257 Docstring Conventions
-# todo: ['17-01-2023', '17-01-2023', 200, 200, 200, 200, 'Coffee', 'Cola', 'Cola', 200, 5, 5, 5, 5, 10, 50, 50, 50, 50, 200, 'Cola', 'Coffee']
-#       above output after two cycles of vending...FIX
+#       It is used to explain how the function behaves. Style of the docstring can be found in PEP 257 Docstring
+#       Conventions.
+# todo: ['17-01-2023', '17-01-2023', 200, 200, 200, 200, 'Coffee', 'Cola', 'Cola', 200, 5, 5, 5, 5, 10, 50, 50, 50, 50,
+#       200, 'Cola', 'Coffee'] above output after two cycles of vending...FIX
 
 from datetime import datetime
 
@@ -23,8 +24,8 @@ class Machine:
                     3: ["Cola", 250, 3, "n/a", 1, ""],
                     4: ["Juice", 400, 0, "n/a", 1, ""]}
 
-    supply_list = {1: ["Sugar", 100],
-                   2: ["Coffee Beans", 100]}
+    supply_list = {5: ["Sugar", 100],
+                   6: ["Coffee Beans", 100]}
 
     current_date = datetime.now().strftime("%d-%m-20%y")
 
@@ -211,6 +212,20 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
     return change_counter
 
 
+def display_coin_reserve():
+    print("")
+    print("Current Coin Reserve:")
+    for i, j in Machine.coin_reserve.items():
+        print("${:.2f}:\t\t{}".format(i / 100, j))
+    print("")
+
+
+def display_supply_list():
+    print("")
+    for i in Machine.supply_list:
+        print("{}) Item: {}, Count: {}".format(i, Machine.supply_list[i][0], Machine.supply_list[i][1]))
+
+
 def display_transactions_summary(data):  # todo: create an instance of USER containing (objects, total)??
     print("*" * 66)
     print("CURRENT SELECTION(S):")
@@ -369,25 +384,6 @@ def list_products():
                                                                              Machine.product_list[i][1] / 100))
 
 
-
-
-
-
-
-
-
-
-    # TODO: CODE BELOW ... (DISPLAYS STOCK SUPPLY) PUT this in MAINTENANCE/ADMIN display
-    print()
-    for i in Machine.supply_list:
-        print("-) Item: {}, Count: {}".format(Machine.supply_list[i][0], Machine.supply_list[i][1]))
-    # TODO: =============================================================================================
-
-
-
-
-
-
 def main_menu():
     while True:
         print("")
@@ -413,9 +409,7 @@ def main_menu():
 
 
 
-# TODO: Working Above ======= c option (maintenance) ==================================================================
-
-
+# TODO: Working Above ======= c option (maintenance()) ==================================================================
 
 
 
@@ -639,8 +633,13 @@ class Maintenance:
             Maintenance.machine_status = True
 """
 
+
+
+
+
+
 # TODO: WORKING HERE:
-# todo seperate Welcome customer mode and customer meny to 2 seperate functons
+# todo seperate Welcome customer mode and Customer menu to 2 separate functions
 def maintenance():
     Machine.machine_state = "* MAINTENANCE *"
 
@@ -664,11 +663,8 @@ def maintenance():
 
 
     if customer == 'a':
-        print("")
-        print("Current Coin Reserve:")
-        for i, j in Machine.coin_reserve.items():
-            print("${:.2f}:\t\t{}".format(i / 100, j))
-        print("")
+
+        display_coin_reserve()
 
         while True:
             try:
@@ -677,31 +673,36 @@ def maintenance():
                     maintenance()
 
                 elif int(restock) in Machine.coin_reserve.keys():
-                    print("Coin found")
-                    break
-
-
-
-
-
-
+                    coin_amount = int(input("Coin found...Enter number of ${:.2f} coins to stock: ".format(int(restock) / 100)))
+                    print("restocking...")
+                    Machine.coin_reserve[int(restock)] += coin_amount
+                    display_coin_reserve()
 
             except KeyError:
                 print("Please enter a valid coin in cent denomination...")
 
             except ValueError:
-                print("Please enter a valid integer number of coins...")
+                print("Please enter a valid integer number of coin denomination...")
+
+
+
 
 
 
 
     # todo: 'b' and onwards
     elif customer == 'b':
+
+        list_products()
+        display_supply_list()
+
+
+
         try:
             items = []
             name = input("Enter item number: ")
             while True:
-                list_products()
+
 
                 price = int(input("Enter price (in cents): "))
                 count = int(input("Enter count of item: "))
