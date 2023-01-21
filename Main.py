@@ -690,7 +690,7 @@ def maintenance():
 
 
 
-    # todo: 'b' and onwards
+    # todo: 'b' and onwards ==================================================== here below ==============
     elif customer == 'b':
 
         list_products()
@@ -699,27 +699,24 @@ def maintenance():
 
 
         try:
-            items = []
-            name = input("Enter item number: ")
-            while True:
 
+            restock = input("Enter item number: ")
+            while True:
+                print("You have chosen:", Machine.product_list[int(restock)].get_name)
 
                 price = int(input("Enter price (in cents): "))
                 count = int(input("Enter count of item: "))
-                ingredients = input("Sugar available?: ")
-                items.append(name)
-                items.append(price)
-                items.append(count)
-                items.append(ingredients)
-                print(items)
+
 
 
 
         except KeyError:
-            pass
+            #pass
+            print("error 1")
 
         except ValueError:
-            pass
+            #pass
+            print("error 2")
 
 
 
