@@ -405,6 +405,8 @@ def main_menu():
         select_product()
 
     else:
+        Machine.machine_state = "* MAINTENANCE *"
+        welcome_customer()
         maintenance()
 
 
@@ -633,22 +635,21 @@ class Maintenance:
             Maintenance.machine_status = True
 """
 
+def welcome_customer():
+    print("")
+    print("*" * 59)
+    print("***** Welcome to CUSTOMER ADMIN:", Machine.machine_state, "mode *****")
+    print("*" * 59 + "\t\t", Machine.current_date)
+    print("")
 
 
 
 
-
-# TODO: WORKING HERE:
+# TODO: WORKING HERE: do this 1/2
 # todo seperate Welcome customer mode and Customer menu to 2 separate functions
 def maintenance():
-    Machine.machine_state = "* MAINTENANCE *"
 
     while True:
-        print("")
-        print("*" * 59)
-        print("***** Welcome to CUSTOMER ADMIN:", Machine.machine_state, "mode *****")
-        print("*" * 59 + "\t\t", Machine.current_date)
-        print("")
         print("Please choose from the following:\n")
         print("a) Add Coins to machine coin reserve")
         print("b) Add Product to inventory")
@@ -685,45 +686,42 @@ def maintenance():
                 print("Please enter a valid integer number of coin denomination...")
 
 
-
-
-
-
-
-    # todo: 'b' and onwards ==================================================== here below ==============
     elif customer == 'b':
 
         list_products()
         display_supply_list()
-
-
-
+#TODO: 1/2 FIX this WORKING HERE...
         try:
-
-            restock = input("Enter item number: ")
+            restock = int(input("Enter item number: "))
             while True:
-                print("You have chosen:", Machine.product_list[int(restock)].get_name)
-
-                price = int(input("Enter price (in cents): "))
-                count = int(input("Enter count of item: "))
-
-
+                if is_valid(restock, [1, 2, 3, 4, 5, 6]):
+                    break
+                if restock < 5:
+                    print("You have chosen:", Machine.product_list[restock][0])
+                    count = int(input("Enter count of item: "))
+                    Machine.product_list[restock][2] += count
+                elif 5 <= restock <= 6:
+                    print("You have chosen:", Machine.supply_list[restock][0])
+                    count = int(input("Enter count of item: "))
+                    Machine.supply_list[restock][1] += count
+                print("Item restocking...")
+                list_products()
+                display_supply_list()
+                maintenance()
+                break
 
 
         except KeyError:
-            #pass
-            print("error 1")
+            print("error 1") #todo: change message
 
         except ValueError:
-            #pass
-            print("error 2")
+            print("error 2") #todo: change message
 
 
 
 
 
-
-
+# todo: 'c' and onwards ==================================================== here below ==============
 
 
     elif customer == 'c':
