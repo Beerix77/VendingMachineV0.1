@@ -222,8 +222,11 @@ def display_coin_reserve():
 
 def display_supply_list():
     print("")
+    print("Current Supplies Reserve:")
+
     for i in Machine.supply_list:
         print("{}) Item: {}, Count: {}".format(i, Machine.supply_list[i][0], Machine.supply_list[i][1]))
+    print("")
 
 
 def display_transactions_summary(data):  # todo: create an instance of USER containing (objects, total)??
@@ -411,7 +414,7 @@ def main_menu():
 
 
 
-# TODO: Working Above ======= c option (maintenance()) ==================================================================
+# TODO: Working Above ======= c option (maintenance()) =================================================================
 
 
 
@@ -635,6 +638,7 @@ class Maintenance:
             Maintenance.machine_status = True
 """
 
+
 def welcome_customer():
     print("")
     print("*" * 59)
@@ -643,17 +647,13 @@ def welcome_customer():
     print("")
 
 
-
-
-# TODO: WORKING HERE: do this 1/2
-# todo seperate Welcome customer mode and Customer menu to 2 separate functions
 def maintenance():
 
     while True:
         print("Please choose from the following:\n")
         print("a) Add Coins to machine coin reserve")
         print("b) Add Product to inventory")
-        print("c) Transaction Records\Statistics") # todo: rename this
+        print("c) Transaction Statistical Data")
         print("M) Return to MAIN MENU")
 
         customer = input("> ").strip().lower()
@@ -661,21 +661,19 @@ def maintenance():
         if is_valid(customer, ['a', 'b', 'c', 'm']):
             break
 
-
-
     if customer == 'a':
 
         display_coin_reserve()
 
         while True:
             try:
-                restock = input("Enter coin to restock (in cents), 'C' to return to CUSTOMER MENU: ").strip().lower()
+                restock = input("Enter a valid coin denomination to restock (in cents), 'C' to return to CUSTOMER MENU: ").strip().lower()
                 if restock == 'c':
                     maintenance()
 
                 elif int(restock) in Machine.coin_reserve.keys():
                     coin_amount = int(input("Coin found...Enter number of ${:.2f} coins to stock: ".format(int(restock) / 100)))
-                    print("restocking...")
+                    print("RESTOCKING...")
                     Machine.coin_reserve[int(restock)] += coin_amount
                     display_coin_reserve()
 
@@ -686,36 +684,40 @@ def maintenance():
                 print("Please enter a valid integer number of coin denomination...")
 
 
+# TODO: 1/1 FIX this WORKING HERE...
     elif customer == 'b':
 
         list_products()
         display_supply_list()
-#TODO: 1/2 FIX this WORKING HERE...
-        try:
-            restock = int(input("Enter item number: "))
-            while True:
-                if is_valid(restock, [1, 2, 3, 4, 5, 6]):
-                    break
-                if restock < 5:
-                    print("You have chosen:", Machine.product_list[restock][0])
+
+        while True:
+            try:
+                restock = input("Enter item number to restock, 'C' to return to CUSTOMER MENU: ").strip().lower()
+                if restock == 'c':
+                    maintenance()
+
+                elif int(restock) < 5:
+                    print("You have chosen:", Machine.product_list[int(restock)][0])
                     count = int(input("Enter count of item: "))
-                    Machine.product_list[restock][2] += count
-                elif 5 <= restock <= 6:
-                    print("You have chosen:", Machine.supply_list[restock][0])
+                    Machine.product_list[int(restock)][2] += count
+
+                elif 5 <= int(restock) <= 6:
+                    print("You have chosen:", Machine.supply_list[int(restock)][0])
                     count = int(input("Enter count of item: "))
-                    Machine.supply_list[restock][1] += count
-                print("Item restocking...")
+                    Machine.supply_list[int(restock)][1] += count
+
+                print("Item RESTOCKING...")
+
                 list_products()
                 display_supply_list()
                 maintenance()
-                break
 
 
-        except KeyError:
-            print("error 1") #todo: change message
+            except KeyError:
+                print("Please enter a valid INTEGER item number...") #todo: change message
 
-        except ValueError:
-            print("error 2") #todo: change message
+            except ValueError:
+                print("Please enter a valid number of items... ") #todo: change message
 
 
 
