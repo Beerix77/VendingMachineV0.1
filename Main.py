@@ -653,7 +653,7 @@ def maintenance():
         print("Please choose from the following:\n")
         print("a) Add Coins to machine coin reserve")
         print("b) Add Product to inventory")
-        print("c) Transaction Records\Statistics")
+        print("c) Transaction Records\Statistics") # todo: rename this
         print("M) Return to MAIN MENU")
 
         customer = input("> ").strip().lower()
