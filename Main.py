@@ -696,28 +696,29 @@ def maintenance():
                 if restock == 'c':
                     maintenance()
 
-                elif int(restock) < 5:
+                elif int(restock) in Machine.product_list:
                     print("You have chosen:", Machine.product_list[int(restock)][0])
                     count = int(input("Enter count of item: "))
                     Machine.product_list[int(restock)][2] += count
 
-                elif 5 <= int(restock) <= 6:
+                elif int(restock) in Machine.supply_list:
                     print("You have chosen:", Machine.supply_list[int(restock)][0])
                     count = int(input("Enter count of item: "))
                     Machine.supply_list[int(restock)][1] += count
-
-                print("Item RESTOCKING...")
-
-                list_products()
-                display_supply_list()
-                maintenance()
-
 
             except KeyError:
                 print("Please enter a valid INTEGER item number...") #todo: change message
 
             except ValueError:
                 print("Please enter a valid number of items... ") #todo: change message
+
+
+        print("Item RESTOCKING...")
+        list_products()
+        display_supply_list()
+        maintenance()
+
+
 
 
 
