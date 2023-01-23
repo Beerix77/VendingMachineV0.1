@@ -650,15 +650,17 @@ def welcome_customer():
 def maintenance():
 
     while True:
+        print("")
         print("Please choose from the following:\n")
         print("a) Add Coins to machine coin reserve")
         print("b) Add Product to inventory")
         print("c) Transaction Statistical Data")
-        print("M) Return to MAIN MENU")
+        print("r) RESET Machine")
+        print("m) Return to MAIN MENU")
 
         customer = input("> ").strip().lower()
 
-        if is_valid(customer, ['a', 'b', 'c', 'm']):
+        if is_valid(customer, ['a', 'b', 'c', 'm', 'r']):
             break
 
     if customer == 'a':
@@ -710,15 +712,23 @@ def maintenance():
                 print("Please enter an integer number...")
 
 
-# todo: 'c' and onwards ==================================================== here below ==============
+# todo: 'c' and onwards === WORKING HERE 1/2 ===============================================================
 
 
     elif customer == 'c':
-        print("*" * 16 + " STATISTICS " + "*" * 16)
+        print("")
+        print("*" * 24 + " STATISTICS " + "*" * 24)
+        print(Machine.transaction_history)
+        print("Write transaction HISTORY to file and print...")
+        maintenance()
 
 
 
 
+
+    elif customer == 'r':
+        Machine.transaction_history.clear()     # TODO: clear all Machine.VARIABLES to reset. 2/2
+        turn_on()
 
 
     else:
