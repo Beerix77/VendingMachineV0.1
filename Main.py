@@ -439,10 +439,10 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
 
 
                     if data[i].sugar == "yes":                      # restock all sugar if item had sugar selected as 'yes' (from tea + coffee) (HARD RESET OPTION)
-                        Machine.supply_list[1][1] += 1
+                        Machine.supply_list[5][1] += 1
 
                     if data[i].name == "Coffee":           # restock Coffee Beans
-                        Machine.supply_list[2][1] += 1
+                        Machine.supply_list[6][1] += 1
 
                 Machine.current_user_transaction_record = []        # clear cache -- remove all transaction objects
                 restart()
@@ -471,13 +471,13 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
 
 
             if int(data[-1].key_value) == 1 and data[-1].sugar == "yes":    # restocks sugar + coffee beans (coffee) and changes productlist back to "no"
-                Machine.supply_list[1][1] += 1
-                Machine.supply_list[2][1] += 1
+                Machine.supply_list[5][1] += 1
+                Machine.supply_list[6][1] += 1
                 Machine.product_list[int(last_item_selected_key)][3] = "no"
 
 
             elif int(data[-1].key_value) == 2 and data[-1].sugar == "yes":   # restocks sugar (tea)
-                Machine.supply_list[1][1] += 1
+                Machine.supply_list[5][1] += 1
                 Machine.product_list[int(last_item_selected_key)][3] = "no"
 
             del data[-1]
@@ -518,12 +518,10 @@ def select_product():
         select_product_menu()
         # TODO : +++++++++++++++++++++ ERROR HERE SOMEWHERE >>> CHOOSE COFFEE etc
         try:
-            """
-            selection = input("Choose an item (1-" + str(len(Machine.product_list)) +
-                              "), or ('M' to return to *** MAIN MENU ***): ").strip().lower()"""
 
-            selection = input("Choose an item (1-4) or ('M' to return to *** MAIN MENU ***): ").strip().lower()
-            print("")
+            selection = input("Choose an item (1-" + str(len(Machine.product_list)) +
+                              "), or ('M' to return to *** MAIN MENU ***): ").strip().lower()
+
 
             if selection == 'm':
                 main_menu()
@@ -533,7 +531,7 @@ def select_product():
                     print("Unfortunately there is 0", Machine.product_list[int(selection)][0], "remaining.\n")
                     post_selection_options(Machine.current_user_transaction_record)
 
-                elif int(selection) == 1 and Machine.supply_list[2][1] == 0:    # if 'Coffee' chosen and 0 coffee beans...
+                elif int(selection) == 1 and Machine.supply_list[6][1] == 0:    # if 'Coffee' chosen and 0 coffee beans...
                     print("Unfortunately there are no more COFFEE BEANS for coffee...\n")
                     continue
 
@@ -541,7 +539,7 @@ def select_product():
                     Machine.product_list[int(selection)][2] -= 1    # subtracts item from product_list
 
                     if int(selection) == 1:                        # if choose coffee subtract coffee beans also
-                        Machine.supply_list[2][1] -= 1
+                        Machine.supply_list[6][1] -= 1
 
                     current_user_item = Item(Machine.product_list[int(selection)][0],
                                              Machine.product_list[int(selection)][1],
@@ -560,9 +558,9 @@ def select_product():
                             if is_valid(sugar_option, ['y', 'n', 'yes', 'no']):
                                 break
 
-                        if (sugar_option == 'y' or sugar_option == 'yes') and Machine.supply_list[1][1] > 0:
+                        if (sugar_option == 'y' or sugar_option == 'yes') and Machine.supply_list[5][1] > 0:
                             current_user_item.sugar = "yes"  # adds sugar to item ie "yes"
-                            Machine.supply_list[1][1] -= 1  # subtracts sugar from SUPPLY LIST
+                            Machine.supply_list[5][1] -= 1  # subtracts sugar from SUPPLY LIST
 
                             while True:
                                 stir = input("MANUAL or AUTO stirring sugar? ").strip().lower()
@@ -577,7 +575,7 @@ def select_product():
                             else:
                                 current_user_item.stir = "MANUAL"
 
-                        elif (sugar_option == 'y' or sugar_option == 'yes') and Machine.supply_list[1][1] == 0:
+                        elif (sugar_option == 'y' or sugar_option == 'yes') and Machine.supply_list[5][1] == 0:
                             print("Unfortunately Vending Machine is OUT OF SUGAR...")
 
                     Machine.current_user_transaction_record.append(current_user_item)              # this will be a list == [[transaction object 1], [...], [...]]
