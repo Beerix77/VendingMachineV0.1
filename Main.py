@@ -238,7 +238,7 @@ def display_transactions_summary(data):  # todo: create an instance of USER cont
 
     else:
         for i in range(len(data)):
-            #user_total_cost += data[i].price
+            # user_total_cost += data[i].price
             if data[i].name == 'Tea':
                 print("{}\t\t\t\t\t${:.2f}\t\tadd sugar: {}".format(data[i].name, data[i].price / 100, data[i].sugar))
                 # VendingMachine.total_cost += i[2]
