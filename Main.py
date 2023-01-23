@@ -684,15 +684,13 @@ def maintenance():
                 print("Please enter an integer number...")
 
 
-# TODO: 1/1 FIX this WORKING HERE...
     elif customer == 'b':
 
-        list_products()
-        display_supply_list()
-
         while True:
+            list_products()
+            display_supply_list()
             try:
-                restock = input("Enter item number to restock, 'M' to return to CUSTOMER MENU: ").strip().lower()
+                restock = input("Enter item number (1-6) to restock, 'M' to return to CUSTOMER/ADMIN MENU: ").strip().lower()
                 if restock == 'm':
                     maintenance()
 
@@ -700,35 +698,23 @@ def maintenance():
                     print("You have chosen:", Machine.product_list[int(restock)][0])
                     count = int(input("Enter count of item: "))
                     Machine.product_list[int(restock)][2] += count
+                    print("RESTOCKING...")
 
                 elif int(restock) in Machine.supply_list:
                     print("You have chosen:", Machine.supply_list[int(restock)][0])
                     count = int(input("Enter count of item: "))
                     Machine.supply_list[int(restock)][1] += count
-
-            except KeyError:
-                print("Please enter a valid INTEGER item number...") #todo: change message
+                    print("RESTOCKING...")
 
             except ValueError:
-                print("Please enter a valid number of items... ") #todo: change message
-
-
-        print("Item RESTOCKING...")
-        list_products()
-        display_supply_list()
-        maintenance()
-
-
-
-
-
+                print("Please enter an integer number...")
 
 
 # todo: 'c' and onwards ==================================================== here below ==============
 
 
     elif customer == 'c':
-        pass
+        print("*" * 16 + " STATISTICS " + "*" * 16)
 
 
 
