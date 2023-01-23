@@ -516,10 +516,13 @@ def select_product():
         print("*" * 23)
 
         select_product_menu()
-
+        # TODO : +++++++++++++++++++++ ERROR HERE SOMEWHERE >>> CHOOSE COFFEE etc
         try:
+            """
             selection = input("Choose an item (1-" + str(len(Machine.product_list)) +
-                              "), or ('M' to return to *** MAIN MENU ***): ").strip().lower()
+                              "), or ('M' to return to *** MAIN MENU ***): ").strip().lower()"""
+
+            selection = input("Choose an item (1-4) or ('M' to return to *** MAIN MENU ***): ").strip().lower()
             print("")
 
             if selection == 'm':
