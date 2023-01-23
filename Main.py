@@ -214,7 +214,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
 
 def display_coin_reserve():
     print("")
-    print("Current Coin Reserve:")
+    print("*" * 5 + " Current Coin Reserve " + "*" * 5)
     for i, j in Machine.coin_reserve.items():
         print("${:.2f}:\t\t{}".format(i / 100, j))
     print("")
@@ -222,7 +222,7 @@ def display_coin_reserve():
 
 def display_supply_list():
     print("")
-    print("Current Supplies Reserve:")
+    print("*" * 5 + " Current Ingredient Supply " + "*" * 5)
 
     for i in Machine.supply_list:
         print("{}) Item: {}, Count: {}".format(i, Machine.supply_list[i][0], Machine.supply_list[i][1]))
@@ -677,11 +677,11 @@ def maintenance():
                     Machine.coin_reserve[int(restock)] += coin_amount
                     display_coin_reserve()
 
-            except KeyError:
-                print("Please enter a valid coin in cent denomination...")
+                else:
+                    print("Please enter a valid coin denomination...(5, 10, 20, 50, 100, 200)")
 
             except ValueError:
-                print("Please enter a valid integer number of coin denomination...")
+                print("Please enter an integer number...")
 
 
 # TODO: 1/1 FIX this WORKING HERE...
