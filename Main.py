@@ -667,8 +667,8 @@ def maintenance():
 
         while True:
             try:
-                restock = input("Enter a valid coin denomination to restock (in cents), 'C' to return to CUSTOMER MENU: ").strip().lower()
-                if restock == 'c':
+                restock = input("Enter a valid coin denomination to restock (in cents), 'M' to return to CUSTOMER MENU: ").strip().lower()
+                if restock == 'm':
                     maintenance()
 
                 elif int(restock) in Machine.coin_reserve.keys():
@@ -692,8 +692,8 @@ def maintenance():
 
         while True:
             try:
-                restock = input("Enter item number to restock, 'C' to return to CUSTOMER MENU: ").strip().lower()
-                if restock == 'c':
+                restock = input("Enter item number to restock, 'M' to return to CUSTOMER MENU: ").strip().lower()
+                if restock == 'm':
                     maintenance()
 
                 elif int(restock) in Machine.product_list:
