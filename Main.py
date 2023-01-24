@@ -600,7 +600,7 @@ def welcome_message(machine_state):
 
 # =====================================================================================================================
 
-# TODO: variable for: WORKING/MAINTENANCE mode
+# TODO 1/1: variable for: WORKING/MAINTENANCE mode
 
 
 """
@@ -689,90 +689,31 @@ def maintenance():
                 print("Please enter an integer number...")
 
 
-
-
-
-
-
-
-
-# todo: 'c' and onwards === WORKING HERE 1/1 ======================= WIP ========================================
-
-
     elif customer == 'c':
         print("")
         print("*" * 24 + " STATISTICS " + "*" * 24)
-        print("Write transaction HISTORY to file and print...")     # del this line
-
-
-        """
-        for i in Machine.statistics:
-            print("")
-            print("Date: {}".format(i[0]))
-            for j in i[1:]:
-                if type(j) == str:
-                    print("Items: {}".format(j))
-                else:
-                    print("Coin(s) inserted: ${:.2f}".format(j / 100))"""
-
-
-
-
-
-
-
-# ==================== del below =====================================================================
-
-
-
-        # TODO: write to file
-
+        print("Writing TRANSACTION HISTORY to file...")     # del this line
 
         # WRITE:
-        file_statistics = open("transactions.txt", "a")
-        file_statistics.writelines("")
+        file_statistics = open("transactions.txt", "w")
         for i in Machine.statistics:
+            file_statistics.writelines(" \n")
+
             file_statistics.writelines("Date: {}\n".format(i[0]))
             for j in i[1:]:
                 if type(j) == str:
                     file_statistics.writelines("Item purchased: {}\n".format(j))
                 else:
                     file_statistics.writelines("Coin(s) inserted: ${:.2f}\n".format(j / 100))
-        file_statistics.writelines("")
         file_statistics.close()
-
 
         # READ:
         file_statistics = open("transactions.txt", "r")
         print(file_statistics.read())
         file_statistics.close()
 
-
-
-# ================================ del above ==========================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         maintenance()
+
 
     elif customer == 'r':
         Machine.transaction_history.clear()
@@ -782,10 +723,8 @@ def maintenance():
     else:
         main_menu()
 
-
-
-
 # =============================================== MAIN BODY BELOW =====================================================
+
 
 turn_on()
 
