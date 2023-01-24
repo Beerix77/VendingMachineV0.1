@@ -300,18 +300,12 @@ def insert_coins(transactions_total):
     print("TOTAL: ${:.2f}".format(total_coins_entered / 100))
     print("")
 
-
-
     if total_coins_entered >= transactions_total:
         change = total_coins_entered - transactions_total
         print("CHANGE OWED: ${:.2f}".format(change / 100))
 
-
-
-
     print("Wait Time is", wait_time(Machine.current_user_transaction_record), "min(s)...")
     print("ITEM(S) DISPENSED:")
-
 
     for i in Machine.current_user_transaction_record:
         print(i.name)                                       # dispense items after >= correct coins inserted
@@ -319,7 +313,10 @@ def insert_coins(transactions_total):
     for i in Machine.current_user_transaction_record:
         Machine.transaction_history.append(i.name)
 
-    Machine.statistics.append(Machine.transaction_history.insert(0, Machine.current_date))      # create statistics transaction history
+
+    Machine.transaction_history.insert(0, Machine.current_date)
+    Machine.statistics.append(Machine.transaction_history)
+
     Machine.user_total_cost = 0                     # reset after dispense
     Machine.current_user_transaction_record = []    # reset after dispense
 
@@ -334,21 +331,17 @@ def insert_coins(transactions_total):
 
 
 
+    """ 
+    this green code-block FOR TESTING ONLY.. DEL when finished with statistics
+        print("TESTING", Machine.statistics)
+        for i in Machine.statistics:
+            for j in i:
+                print(type(j))"""
 
 
 
 
-
-    # todo : VendingMachine.transaction_history should be = [date, user_choice, items, coins_inserted]
-    # todo: for testing only below
-    print("TEST", Machine.transaction_history)
-
-
-
-
-
-
-
+    Machine.transaction_history = []
     goodbye_message()
 
 
@@ -698,23 +691,75 @@ def maintenance():
                 print("Please enter an integer number...")
 
 
-# todo: 'c' and onwards === WORKING HERE 1/2 ===============================================================
-# todo: 2x cycles of buying:    TEST['24-01-2023', '24-01-2023', 200, 'Coffee', 100, 100, 100, 'Cola']
+
+
+
+
+
+
+
+# todo: 'c' and onwards === WORKING HERE 1/2 ======================= WIP ========================================
 
 
     elif customer == 'c':
         print("")
         print("*" * 24 + " STATISTICS " + "*" * 24)
-        print(Machine.transaction_history)
         print("Write transaction HISTORY to file and print...")
+
+
+
+
+
+
+
+
+
+        x = []
+        y = []
+
+        for i in range(1, len(Machine.statistics)):
+            if type(i) == int:
+                x.append(i)
+
+            elif type(i) == str:
+                y.append(i)
+
+
+        for i in Machine.statistics:
+            print("Date: {}", end=" ".format(i))
+            print("Items: {}", list(y))
+            print("Coins Inserted: {:.2f}".format(x[i] / 100))
+
+
+
+
+
+
+
+
+            #print("Date: {}\t\tItems(s): {}\t\tCoins inserted: ${:.2f}".format(i[0], i[])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         maintenance()
-
-
-
-
 
     elif customer == 'r':
         Machine.transaction_history.clear()     # TODO: clear all Machine.VARIABLES to reset. 2/2
+        # Machine.statistics.clear() ???
         turn_on()
 
 
