@@ -193,7 +193,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
                 Machine.coin_reserve[5] -= 1
                 change_counter.append(5)
                 b -= 5
-            #print("Test8", b)
+            #print("Test8", b)  # TODO: ERROR if 0.00 change... FIX
 
         elif b >= 5 and Machine.coin_reserve[5] <= w:
             #print("Test9", b)
@@ -320,22 +320,18 @@ def insert_coins(transactions_total):
         Machine.transaction_history.append(i.name)
 
     Machine.statistics.append(Machine.transaction_history.insert(0, Machine.current_date))      # create statistics transaction history
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     Machine.user_total_cost = 0                     # reset after dispense
     Machine.current_user_transaction_record = []    # reset after dispense
+
+    if change == 0:
+        print("$0.00 change")
+
+    else:
+        for i in (adjust_coin_reserve(Machine.transaction_history, Machine.coin_reserve, change)):   #[Date, coins, items], [machine coins], [change given]]
+            print("${:.2f}".format(i / 100))
+
+
+
 
 
 
@@ -345,26 +341,15 @@ def insert_coins(transactions_total):
 
     # todo : VendingMachine.transaction_history should be = [date, user_choice, items, coins_inserted]
     # todo: for testing only below
-
-    """
-    print("TESTING ONLY...")
-    print(Machine.transaction_history)                               # [Date, coins, items]
-    print("data sent to coin calculator...TESTING")
-    """
+    print("TEST", Machine.transaction_history)
 
 
 
 
-
-    for i in (adjust_coin_reserve(Machine.transaction_history, Machine.coin_reserve, change)):   #[Date, coins, items], [machine coins], [change given]]
-        print("${:.2f}".format(i / 100))
 
 
 
     goodbye_message()
-
-
-
 
 
 def is_valid(data, choices):  # choices are in a list
@@ -516,7 +501,7 @@ def select_product():
         print("*" * 23)
 
         select_product_menu()
-        # TODO : +++++++++++++++++++++ ERROR HERE SOMEWHERE >>> CHOOSE COFFEE etc
+
         try:
 
             selection = input("Choose an item (1-" + str(len(Machine.product_list)) +
@@ -714,6 +699,7 @@ def maintenance():
 
 
 # todo: 'c' and onwards === WORKING HERE 1/2 ===============================================================
+# todo: 2x cycles of buying:    TEST['24-01-2023', '24-01-2023', 200, 'Coffee', 100, 100, 100, 'Cola']
 
 
     elif customer == 'c':
