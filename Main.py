@@ -698,7 +698,7 @@ def maintenance():
 
 
 
-# todo: 'c' and onwards === WORKING HERE 1/2 ======================= WIP ========================================
+# todo: 'c' and onwards === WORKING HERE 1/1 ======================= WIP ========================================
 
 
     elif customer == 'c':
@@ -706,53 +706,28 @@ def maintenance():
         print("*" * 24 + " STATISTICS " + "*" * 24)
         print("Write transaction HISTORY to file and print...")
 
-
-
-
-
-
-
-
-
-
-
-        print(Machine.statistics)       # for testing only
+        #print(Machine.statistics)       # for testing only
 
 
         for i in Machine.statistics:
             print("")
             print("Date: {}".format(i[0]))
-            for j in i:
+            for j in i[1:]:
                 if type(j) == str:
                     print("Items: {}".format(j))
                 else:
-                    print("Coin(s) inserted ${:.2f}".format(j / 100))
+                    print("Coin(s) inserted: ${:.2f}".format(j / 100))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        # TODO: write to file
 
 
         maintenance()
 
     elif customer == 'r':
-        Machine.transaction_history.clear()     # TODO: clear all Machine.VARIABLES to reset. 2/2
-        # Machine.statistics.clear() ???
+        Machine.transaction_history.clear()
+        Machine.statistics.clear()
         turn_on()
-
 
     else:
         main_menu()
