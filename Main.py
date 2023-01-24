@@ -627,7 +627,6 @@ def welcome_customer():
 
 
 def maintenance():
-
     while True:
         print("")
         print("Please choose from the following:\n")
@@ -663,7 +662,6 @@ def maintenance():
 
             except ValueError:
                 print("Please enter an integer number...")
-
 
     elif customer == 'b':
 
