@@ -714,30 +714,21 @@ def maintenance():
 
 
 
-        x = []
-        y = []
 
-        for i in range(1, len(Machine.statistics)):
-            if type(i) == int:
-                x.append(i)
 
-            elif type(i) == str:
-                y.append(i)
+        print(Machine.statistics)       # for testing only
 
 
         for i in Machine.statistics:
-            print("Date: {}", end=" ".format(i))
-            print("Items: {}", list(y))
-            print("Coins Inserted: {:.2f}".format(x[i] / 100))
+            print("")
+            print("Date: {}".format(i[0]))
+            for j in i:
+                if type(j) == str:
+                    print("Items: {}".format(j))
+                else:
+                    print("Coin(s) inserted ${:.2f}".format(j / 100))
 
 
-
-
-
-
-
-
-            #print("Date: {}\t\tItems(s): {}\t\tCoins inserted: ${:.2f}".format(i[0], i[])
 
 
 
