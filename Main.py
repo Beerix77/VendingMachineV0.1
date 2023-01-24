@@ -704,11 +704,10 @@ def maintenance():
     elif customer == 'c':
         print("")
         print("*" * 24 + " STATISTICS " + "*" * 24)
-        print("Write transaction HISTORY to file and print...")
-
-        #print(Machine.statistics)       # for testing only
+        print("Write transaction HISTORY to file and print...")     # del this line
 
 
+        """
         for i in Machine.statistics:
             print("")
             print("Date: {}".format(i[0]))
@@ -716,10 +715,63 @@ def maintenance():
                 if type(j) == str:
                     print("Items: {}".format(j))
                 else:
-                    print("Coin(s) inserted: ${:.2f}".format(j / 100))
+                    print("Coin(s) inserted: ${:.2f}".format(j / 100))"""
+
+
+
+
+
+
+
+# ==================== del below =====================================================================
+
 
 
         # TODO: write to file
+
+
+        # WRITE:
+        file_statistics = open("transactions.txt", "a")
+        file_statistics.writelines("")
+        for i in Machine.statistics:
+            file_statistics.writelines("Date: {}\n".format(i[0]))
+            for j in i[1:]:
+                if type(j) == str:
+                    file_statistics.writelines("Item purchased: {}\n".format(j))
+                else:
+                    file_statistics.writelines("Coin(s) inserted: ${:.2f}\n".format(j / 100))
+        file_statistics.writelines("")
+        file_statistics.close()
+
+
+        # READ:
+        file_statistics = open("transactions.txt", "r")
+        print(file_statistics.read())
+        file_statistics.close()
+
+
+
+# ================================ del above ==========================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         maintenance()
