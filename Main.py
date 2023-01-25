@@ -4,7 +4,7 @@
 
 # NOTES:
 # todo: all def functions into a class???
-# todo: auto Alert Message when enter maintenance mode if ANY supply == 0
+# todo: if machine in * MAINTENANCE * mode display message must be changed by ADMIN to continue...
 # todo: At the beginning of each function, there is a string within triple quotation marks, called a docstring.
 #       It is used to explain how the function behaves. Style of the docstring can be found in PEP 257 Docstring
 #       Conventions.
@@ -717,7 +717,7 @@ def maintenance():
             maintenance()
 
         else:
-            Machine.state = "* WORKING *"
+            Machine.machine_state = "* WORKING *"
             welcome_customer()
             maintenance()
 
