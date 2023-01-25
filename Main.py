@@ -19,11 +19,11 @@ class Machine:
     # VARIABLES:
     # =========
     product_list = {1: ["Coffee", 200, 10, "no", 3, ""],
-                    2: ["Tea", 150, 8, "no", 2, ""],
+                    2: ["Tea", 150, 0, "no", 2, ""],
                     3: ["Cola", 250, 3, "n/a", 1, ""],
                     4: ["Juice", 400, 0, "n/a", 1, ""]}
 
-    supply_list = {5: ["Sugar", 100],
+    supply_list = {5: ["Sugar", 0],
                    6: ["Coffee Beans", 100]}
 
     current_date = datetime.now().strftime("%d-%m-20%y")
@@ -611,17 +611,13 @@ def welcome_customer():
     print("*" * 59 + "\t\t", Machine.current_date)
     print("")
     for i in Machine.product_list:
-        Machine.product_list[i][4] == 0
-        print("WARNING: Item", Machine.product_list[i], "has 0 stock available...")
+        if Machine.product_list[i][2] == 0:
+            print("WARNING!!! Item:", Machine.product_list[i][0], "has 0 stock available...")
 
 
     for i in Machine.supply_list:
-        pass
-
-
-
-
-
+        if Machine.supply_list[i][1] == 0:
+            print("WARNING!!! Ingredient Item:", Machine.supply_list[i][0], "has 0 stock available...")
 
 
 def maintenance():
