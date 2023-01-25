@@ -6,12 +6,12 @@
 # todo: MAINTENANCE mode create a KEY == ie len(product_list +1) etc for adding new unlisted items
 # todo: all def functions into a class???
 # todo: auto Alert Message when enter maintenance mode if ANY supply == 0
-# todo: write statistics etc to File.
 # todo: At the beginning of each function, there is a string within triple quotation marks, called a docstring.
 #       It is used to explain how the function behaves. Style of the docstring can be found in PEP 257 Docstring
 #       Conventions.
-# todo: ['17-01-2023', '17-01-2023', 200, 200, 200, 200, 'Coffee', 'Cola', 'Cola', 200, 5, 5, 5, 5, 10, 50, 50, 50, 50,
-#       200, 'Cola', 'Coffee'] above output after two cycles of vending...FIX
+# todo when select to restock items and incorrect input, program goes back to 'enter number to restock'
+
+
 
 from datetime import datetime
 
@@ -312,7 +312,6 @@ def insert_coins(transactions_total):
 
     for i in Machine.current_user_transaction_record:
         Machine.transaction_history.append(i.name)
-
 
     Machine.transaction_history.insert(0, Machine.current_date)
     Machine.statistics.append(Machine.transaction_history)
@@ -675,13 +674,13 @@ def maintenance():
 
                 elif int(restock) in Machine.product_list:
                     print("You have chosen:", Machine.product_list[int(restock)][0])
-                    count = int(input("Enter count of item: "))
+                    count = int(input("Enter amount of " + Machine.product_list[int(restock)][0] + " to restock: "))
                     Machine.product_list[int(restock)][2] += count
                     print("RESTOCKING...")
 
                 elif int(restock) in Machine.supply_list:
                     print("You have chosen:", Machine.supply_list[int(restock)][0])
-                    count = int(input("Enter count of item: "))
+                    count = int(input("Enter amount of " + Machine.supply_list[int(restock)][0] + " to restock: "))
                     Machine.supply_list[int(restock)][1] += count
                     print("RESTOCKING...")
 
