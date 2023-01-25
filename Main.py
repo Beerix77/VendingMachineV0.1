@@ -3,13 +3,12 @@
 # Description: VENDING_MACHINE v0.1 --- CURRENT WIP
 
 # NOTES:
-# todo: MAINTENANCE mode create a KEY == ie len(product_list +1) etc for adding new unlisted items
 # todo: all def functions into a class???
 # todo: auto Alert Message when enter maintenance mode if ANY supply == 0
 # todo: At the beginning of each function, there is a string within triple quotation marks, called a docstring.
 #       It is used to explain how the function behaves. Style of the docstring can be found in PEP 257 Docstring
 #       Conventions.
-# todo when select to restock items and incorrect input, program goes back to 'enter number to restock'
+# todo: When select to restock items and incorrect input, program goes back to 'enter number to restock'
 
 
 
@@ -385,7 +384,7 @@ def main_menu():
         select_product()
 
     else:
-        Machine.machine_state = "* MAINTENANCE *"
+        #Machine.machine_state = "* MAINTENANCE *"
         welcome_customer()
         maintenance()
 
@@ -600,21 +599,9 @@ def welcome_message(machine_state):
 # =====================================================================================================================
 
 # TODO 1/1: variable for: WORKING/MAINTENANCE mode
+# todo: The program should have an option for the admin to set the machine mode for example whether the machine is
+#  working or under maintenance. The message should be displayed to the user.
 
-
-"""
-class Maintenance:
-
-
-
-    def status(self, current_status):
-        if current_status:
-            Maintenance.state = "* MAINTENANCE *"
-            Maintenance.machine_status = False
-        else:
-            Maintenance.state = "* WORKING *"
-            Maintenance.machine_status = True
-"""
 
 
 def welcome_customer():
@@ -623,6 +610,18 @@ def welcome_customer():
     print("***** Welcome to CUSTOMER ADMIN:", Machine.machine_state, "mode *****")
     print("*" * 59 + "\t\t", Machine.current_date)
     print("")
+    for i in Machine.product_list:
+        Machine.product_list[i][4] == 0
+        print("WARNING: Item", Machine.product_list[i], "has 0 stock available...")
+
+
+    for i in Machine.supply_list:
+        pass
+
+
+
+
+
 
 
 def maintenance():
@@ -632,12 +631,13 @@ def maintenance():
         print("a) Add Coins to machine coin reserve")
         print("b) Add Product to inventory")
         print("c) Transaction Statistical Data")
+        print("d) Set Machine to WORKING/MAINTENANCE state")
         print("r) RESET Machine")
         print("m) Return to MAIN MENU")
 
         customer = input("> ").strip().lower()
 
-        if is_valid(customer, ['a', 'b', 'c', 'm', 'r']):
+        if is_valid(customer, ['a', 'b', 'c', 'd', 'm', 'r']):
             break
 
     if customer == 'a':
@@ -712,6 +712,26 @@ def maintenance():
         file_statistics.close()
 
         maintenance()
+
+
+    elif customer == 'd':
+        if Machine.machine_state == "* WORKING *":
+            Machine.machine_state = "* MAINTENANCE *"
+            welcome_customer()
+            maintenance()
+
+        else:
+            Machine.state = "* WORKING *"
+            welcome_customer()
+            maintenance()
+
+
+
+
+
+
+
+
 
 
     elif customer == 'r':
