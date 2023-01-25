@@ -102,11 +102,6 @@ class User:
     def __str__(self):
         return "{}\nPrice: ${:.2f}\n".format(self.selections, self.total_owed / 100)
 
-    # CLASS METHODS:
-    # =============
-    def select(self):
-        pass
-
 
 # FUNCTIONS:
 # =========
@@ -119,7 +114,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
             machine_coins[i] += 1       # adds coins to machine reserve
 
     if change_dispensed > 0:
-# 100c
+        # 100c
         if change_dispensed >= 100 and Machine.coin_reserve[100] > 0:
             Machine.coin_reserve[100] -= 1
             change_counter.append(100)
@@ -130,7 +125,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
         #print("Test1", b)
 
 
-# 50c
+        # 50c
         x = b // 50     # z = number of times 50c can go into change remaining (b)
         if b >= 50 and Machine.coin_reserve[50] >= x:    # here have enough 50c for ALL calcs
 
@@ -138,17 +133,14 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
                 Machine.coin_reserve[50] -= 1
                 change_counter.append(50)
                 b -= 50
-            #print("Test2", b)
 
         elif b >= 50 and Machine.coin_reserve[50] <= x:     # here DON'T have enough 50c for calcs
             for i in range(Machine.coin_reserve[50]):
                 Machine.coin_reserve[50] -= 1
                 change_counter.append(50)
                 b -= 50
-            #print("Test3", b)
 
-
-# 20c
+        # 20c
         y = b // 20  # y = number of times 20c can go into change remaining (b)
         if b >= 20 and Machine.coin_reserve[20] >= y:  # here have enough 20c for ALL calcs
 
@@ -156,17 +148,14 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
                 Machine.coin_reserve[20] -= 1
                 change_counter.append(20)
                 b -= 20
-            #print("Test4", b)
 
         elif b >= 20 and Machine.coin_reserve[20] <= y:  # here DON'T have enough 20c for calcs
             for i in range(Machine.coin_reserve[20]):
                 Machine.coin_reserve[20] -= 1
                 change_counter.append(20)
                 b -= 20
-            #print("Test5", b)
 
-
-# 10c
+        # 10c
         z = b // 10  # z = number of times 10c can go into change remaining (b)
         if b >= 10 and Machine.coin_reserve[10] >= z:  # here have enough 10c for ALL calcs
 
@@ -174,25 +163,20 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
                 Machine.coin_reserve[10] -= 1
                 change_counter.append(10)
                 b -= 10
-            #print("Test6", b)
 
         elif b >= 10 and Machine.coin_reserve[10] <= z:  # here DON'T have enough 10c for calcs
             for i in range(Machine.coin_reserve[10]):
                 Machine.coin_reserve[10] -= 1
                 change_counter.append(10)
                 b -= 10
-            #print("Test7", b)
 
-
-# 5c
+        # 5c
         w = b // 5  # z = number of times 5c can go into change remaining (b)
         if b >= 5 and Machine.coin_reserve[5] >= w:  # here have enough 5c for ALL calcs
-
             for i in range(w):
                 Machine.coin_reserve[5] -= 1
                 change_counter.append(5)
                 b -= 5
-            #print("Test8", b)  # TODO: ERROR if 0.00 change... FIX
 
         elif b >= 5 and Machine.coin_reserve[5] <= w:
             #print("Test9", b)
