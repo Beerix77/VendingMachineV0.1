@@ -9,6 +9,7 @@
 #       It is used to explain how the function behaves. Style of the docstring can be found in PEP 257 Docstring
 #       Conventions.
 # todo: When select to restock items and incorrect input, program goes back to 'enter number to restock'
+# todo: rename variables in: adjust_coins_reserve function
 
 
 
@@ -122,9 +123,6 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
         else:
             b = change_dispensed
 
-        #print("Test1", b)
-
-
         # 50c
         x = b // 50     # z = number of times 50c can go into change remaining (b)
         if b >= 50 and Machine.coin_reserve[50] >= x:    # here have enough 50c for ALL calcs
@@ -179,13 +177,12 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
                 b -= 5
 
         elif b >= 5 and Machine.coin_reserve[5] <= w:
-            #print("Test9", b)
             print("Unfortunately Vending Machine does not contain enough coins to give CORRECT change.. Contact Admin/Maintenance mode to restock...")
 
-            print(Machine.coin_reserve) # for TEST remove (coins returned if not enough change)
+            print(Machine.coin_reserve) # todo: for TEST remove (coins returned if not enough change)
             for i in change_counter:
                 Machine.coin_reserve[i] += 1        # coins of 'change-bucket' are returned to coin_reserve
-            print(Machine.coin_reserve) # for TEST remove (coins returned if not enough change)
+            print(Machine.coin_reserve) # todo: for TEST remove (coins returned if not enough change)
 
             change_counter = ["No change given...<No change available in Vending Machine"] # coin values List is replaced with message
 
