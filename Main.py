@@ -3,6 +3,7 @@
 # Description: VENDING_MACHINE v0.1 --- CURRENT WIP
 
 # NOTES:
+# todo: SUPPLY_LIST DICTIONARY IS READ FROM A FILE...
 # todo: all def functions into a class???
 # todo: if machine in * MAINTENANCE * mode display message must be changed by ADMIN to continue...
 # todo: At the beginning of each function, there is a string within triple quotation marks, called a docstring.

@@ -1,8 +1,0 @@
- 
-Date: 26-01-2023
-Coin(s) inserted: $2.00
-Coin(s) inserted: $0.20
-Coin(s) inserted: $1.00
-Coin(s) inserted: $2.00
-Item purchased: Tea
-Item purchased: Cola
