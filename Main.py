@@ -21,11 +21,11 @@ class Machine:
     # VARIABLES:
     # =========
     product_list = {1: ["Coffee", 200, 10, "no", 3, ""],
-                    2: ["Tea", 150, 0, "no", 2, ""],
+                    2: ["Tea", 150, 8, "no", 2, ""],
                     3: ["Cola", 250, 3, "n/a", 1, ""],
                     4: ["Juice", 400, 0, "n/a", 1, ""]}
 
-    supply_list = {5: ["Sugar", 0],
+    supply_list = {5: ["Sugar", 100],
                    6: ["Coffee Beans", 100]}
 
     current_date = datetime.now().strftime("%d-%m-20%y")
@@ -34,7 +34,7 @@ class Machine:
 
     paper_money = [500, 1000, 2000, 5000, 10000]
 
-    coin_reserve = {5: 100, 10: 100, 20: 100, 50: 100, 100: 100, 200: 100}
+    coin_reserve = {5: 10, 10: 10, 20: 10, 50: 10, 100: 10, 200: 10}
 
     current_user_transaction_record = []
 
