@@ -9,7 +9,7 @@
 # todo: At the beginning of each function, there is a string within triple quotation marks, called a docstring.
 #       It is used to explain how the function behaves. Style of the docstring can be found in PEP 257 Docstring
 #       Conventions.
-# todo: When select to restock items and incorrect input, program goes back to 'enter number to restock'
+# todo: When select to restock items and (item selected to restock) incorrect input, program goes back to 'enter number to restock'
 # todo: rename variables in: adjust_coins_reserve function
 
 
@@ -107,6 +107,7 @@ class User:
 
 # FUNCTIONS:
 # =========
+
 def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date, coins, items], [machine coins (coin_reserve)], [change given (value)]]
 
     change_counter = []
@@ -662,8 +663,10 @@ def maintenance():
                     Machine.supply_list[int(restock)][1] += count
                     print("RESTOCKING...")
 
+
             except ValueError:
                 print("Please enter an integer number...")
+
 
 
     elif customer == 'c':
