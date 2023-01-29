@@ -4,14 +4,22 @@
 
 # NOTES:
 # todo: SUPPLY_LIST DICTIONARY IS READ FROM A FILE...
-# todo: all def functions into a class???
+
+
 # todo: if machine in * MAINTENANCE * mode display message must be changed by ADMIN to continue...
+
+
 # todo: At the beginning of each function, there is a string within triple quotation marks, called a docstring.
 #       It is used to explain how the function behaves. Style of the docstring can be found in PEP 257 Docstring
 #       Conventions.
-# todo: When select to restock items and (item selected to restock) incorrect input, program goes back to 'enter number to restock'
-# todo: rename variables in: adjust_coins_reserve function
-# todo: check restart() function
+#       The docstring for a function or method should summarize its behavior and document its arguments, return value(s)
+#       , side effects, exceptions raised, and restrictions on when it can be called (all if applicable).
+#       Optional arguments should be indicated. It should be documented whether keyword arguments are part of the
+#       interface.
+#       The docstring for a class should summarize its behavior and list the public methods and instance variables. If
+#       the class is intended to be subclassed, and has an additional interface for subclasses, this interface should be
+#       listed separately (in the docstring). The class constructor should be documented in the docstring for its
+#       __init__ method. Individual methods should be documented by their own docstring.
 
 
 
@@ -124,72 +132,72 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
         if change_dispensed >= 100 and Machine.coin_reserve[100] > 0:
             Machine.coin_reserve[100] -= 1
             change_counter.append(100)
-            b = change_dispensed - 100
+            remainder = change_dispensed - 100
         else:
-            b = change_dispensed
+            remainder = change_dispensed
 
         # 50c
-        x = b // 50     # x = number of times 50c can go into change remaining (b)
-        if b >= 50 and Machine.coin_reserve[50] >= x:    # here have enough 50c for ALL calcs
+        x = remainder // 50     # x = number of times 50c can go into change remaining (remainder)
+        if remainder >= 50 and Machine.coin_reserve[50] >= x:    # here have enough 50c for ALL calcs
 
             for i in range(x):
                 Machine.coin_reserve[50] -= 1
                 change_counter.append(50)
-                b -= 50
+                remainder -= 50
 
-        elif b >= 50 and Machine.coin_reserve[50] <= x:     # here DON'T have enough 50c for calcs
+        elif remainder >= 50 and Machine.coin_reserve[50] <= x:     # here DON'T have enough 50c for calcs
             for i in range(Machine.coin_reserve[50]):
                 Machine.coin_reserve[50] -= 1
                 change_counter.append(50)
-                b -= 50
+                remainder -= 50
 
         # 20c
-        y = b // 20  # y = number of times 20c can go into change remaining (b)
-        if b >= 20 and Machine.coin_reserve[20] >= y:  # here have enough 20c for ALL calcs
+        y = remainder // 20  # y = number of times 20c can go into change remaining (remainder)
+        if remainder >= 20 and Machine.coin_reserve[20] >= y:  # here have enough 20c for ALL calcs
 
             for i in range(y):
                 Machine.coin_reserve[20] -= 1
                 change_counter.append(20)
-                b -= 20
+                remainder -= 20
 
-        elif b >= 20 and Machine.coin_reserve[20] <= y:  # here DON'T have enough 20c for calcs
+        elif remainder >= 20 and Machine.coin_reserve[20] <= y:  # here DON'T have enough 20c for calcs
             for i in range(Machine.coin_reserve[20]):
                 Machine.coin_reserve[20] -= 1
                 change_counter.append(20)
-                b -= 20
+                remainder -= 20
 
         # 10c
-        z = b // 10  # z = number of times 10c can go into change remaining (b)
-        if b >= 10 and Machine.coin_reserve[10] >= z:  # here have enough 10c for ALL calcs
+        z = remainder // 10  # z = number of times 10c can go into change remaining (remainder)
+        if remainder >= 10 and Machine.coin_reserve[10] >= z:  # here have enough 10c for ALL calcs
 
             for i in range(z):
                 Machine.coin_reserve[10] -= 1
                 change_counter.append(10)
-                b -= 10
+                remainder -= 10
 
-        elif b >= 10 and Machine.coin_reserve[10] <= z:  # here DON'T have enough 10c for calcs
+        elif remainder >= 10 and Machine.coin_reserve[10] <= z:  # here DON'T have enough 10c for calcs
             for i in range(Machine.coin_reserve[10]):
                 Machine.coin_reserve[10] -= 1
                 change_counter.append(10)
-                b -= 10
+                remainder -= 10
 
         # 5c
-        w = b // 5  # w = number of times 5c can go into change remaining (b)
-        if b >= 5 and Machine.coin_reserve[5] >= w:  # here have enough 5c for ALL calcs
+        w = remainder // 5  # w = number of times 5c can go into change remaining (remainder)
+        if remainder >= 5 and Machine.coin_reserve[5] >= w:  # here have enough 5c for ALL calcs
             for i in range(w):
                 Machine.coin_reserve[5] -= 1
                 change_counter.append(5)
-                b -= 5
+                remainder -= 5
 
-        elif b >= 5 and Machine.coin_reserve[5] <= w:
-            print("Unfortunately Vending Machine does not contain enough coins to give CORRECT change.. Contact Admin/Maintenance mode to restock...")
+        elif remainder >= 5 and Machine.coin_reserve[5] <= w:
+            print("Unfortunately Vending Machine does not contain enough coins to give CORRECT change.. "
+                  "Contact Admin/Maintenance mode to restock...")
 
-            print(Machine.coin_reserve) # todo: for TEST remove (coins returned if not enough change)
-            for i in change_counter:
-                Machine.coin_reserve[i] += 1        # coins of 'change-bucket' are returned to coin_reserve
-            print(Machine.coin_reserve) # todo: for TEST remove (coins returned if not enough change)
+            if len(change_counter) >= 1:
+                for i in change_counter:
+                    Machine.coin_reserve[i] += 1        # coins of 'change-bucket' are returned to coin_reserve (checks if any coins were in bucket first)
 
-            change_counter = ["No change given...<No change available in Vending Machine"] # coin values List is replaced with message
+            change_counter = ["No change given...<not enough coin reserve to dispense correct change>"]      # coin values List is replaced with message
 
     elif change_dispensed == 0:
         change_counter = ["No change given...<Correct coins were inserted>"]
@@ -214,7 +222,7 @@ def display_supply_list():
     print("")
 
 
-def display_transactions_summary(data):  # todo: create an instance of USER containing (objects, total)??
+def display_transactions_summary(data):
     print("*" * 66)
     print("CURRENT SELECTION(S):")
 
@@ -306,7 +314,10 @@ def insert_coins(transactions_total):
 
     else:
         for i in (adjust_coin_reserve(Machine.transaction_history, Machine.coin_reserve, change)):   #[Date, coins, items], [machine coins], [change given]]
-            print("${:.2f}".format(i / 100))
+            if type(i) == str:
+                print(i)
+            else:
+                print("${:.2f}".format(int(i) / 100))
 
     Machine.transaction_history = []
     goodbye_message()
@@ -365,7 +376,7 @@ def maintenance():
         print("b) Add Product to inventory")
         print("c) Transaction Statistical Data")
         print("d) Set Machine to WORKING/MAINTENANCE state")
-        print("r) RESET Machine")
+        print("r) RESET Machine (deletes all statistics data)")
         print("m) Return to MAIN MENU")
 
         customer = input("> ").strip().lower()
@@ -423,7 +434,7 @@ def maintenance():
     elif customer == 'c':
         print("")
         print("*" * 24 + " STATISTICS " + "*" * 24)
-        print("Writing TRANSACTION HISTORY to file...")     # del this line
+        print("Writing TRANSACTION HISTORY to file...")
 
         # WRITE:
         file_statistics = open("transactions.txt", "w")
@@ -488,7 +499,7 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
                         Machine.supply_list[6][1] += 1
 
                 Machine.current_user_transaction_record = []        # clear cache -- remove all transaction objects
-                restart()
+                main_menu()
 
             elif confirmation == 'n':
                 display_transactions_summary(Machine.current_user_transaction_record)
@@ -534,10 +545,6 @@ def refund_coins(coins):
     if len(coins) == 0:
         print("No coins refunded as none were inserted...")
     Machine.transaction_history = []    # reset coin history
-
-
-def restart():
-    main_menu()
 
 
 def running_total_owing():
