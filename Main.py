@@ -7,11 +7,13 @@
 # todo: At the beginning of each function, there is a string within triple quotation marks, called a docstring.
 #       It is used to explain how the function behaves. Style of the docstring can be found in PEP 257 Docstring
 #       Conventions.
-#       The docstring for a function or method should summarize its behavior and document its arguments, return value(s)
+
+#       The docstring for a 'function' or method should summarize its behavior and document its arguments, return value(s)
 #       , side effects, exceptions raised, and restrictions on when it can be called (all if applicable).
 #       Optional arguments should be indicated. It should be documented whether keyword arguments are part of the
 #       interface.
-#       The docstring for a class should summarize its behavior and list the public methods and instance variables. If
+
+#       The docstring for a 'class' should summarize its behavior and list the public methods and instance variables. If
 #       the class is intended to be subclassed, and has an additional interface for subclasses, this interface should be
 #       listed separately (in the docstring). The class constructor should be documented in the docstring for its
 #       __init__ method. Individual methods should be documented by their own docstring.
@@ -26,7 +28,7 @@ from datetime import datetime
 
 class Machine:
     """
-    Machine class containing ma
+    class Machine contains
     """
     # VARIABLES:
     # =========
