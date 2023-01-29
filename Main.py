@@ -349,7 +349,7 @@ def main_menu():
         menu_choice = input("Please select from the following MAIN MENU (a, b, or c):\n"
                             "a) List Products\n"
                             "b) Choose Product(s)\n"
-                            "c) Customer Maintenance mode\n"
+                            "c) Customer\Admin menu\n"
                             "> ").strip().lower()
         print("")
         if is_valid(menu_choice, ['a', 'b', 'c']):
@@ -357,6 +357,10 @@ def main_menu():
 
     if menu_choice == 'a':
         list_products()
+        main_menu()
+
+    elif menu_choice == 'b' and Machine.machine_state == "* MAINTENANCE *":
+        print("WARNING!!! Vending Machine is currently in * MAINTENANCE * mode...Use Customer\Admin Menu to change status...")
         main_menu()
 
     elif menu_choice == 'b':
@@ -377,7 +381,7 @@ def maintenance():
         print("c) Transaction Statistical Data")
         print("d) Set Machine to WORKING/MAINTENANCE state")
         print("r) RESET Machine (deletes all statistics data)")
-        print("m) Return to MAIN MENU")
+        print("m) Return to MAIN MENU (User)")
 
         customer = input("> ").strip().lower()
 
@@ -661,7 +665,7 @@ def wait_time(data):
 def welcome_customer():
     print("")
     print("*" * 59)
-    print("***** Welcome to CUSTOMER ADMIN:", Machine.machine_state, "mode *****")
+    print("*" * 5 + " Welcome to CUSTOMER ADMIN:", Machine.machine_state, "mode " + "*" * 5)
     print("*" * 59 + "\t\t", Machine.current_date)
     print("")
     for i in Machine.product_list:
@@ -675,11 +679,10 @@ def welcome_customer():
 
 def welcome_user(machine_state):
     print("")
-    print("=" * 63)
-    print("*" * 5 + " WELCOME!!! PYTHON VENDING MACHINE: " + machine_state + " mode " + "*" * 5)
-    print("=" * 63 + "\t\t", Machine.current_date)
-    if Machine.machine_state == "* MAINTENANCE *":
-        print("WARNING!!! Vending Machine is currently in * MAINTENANCE * mode...Use Customer Menu to change status...")
+    print("=" * 67)
+    print("=" * 5 + " WELCOME!!! PYTHON VENDING MACHINE: " + machine_state + " mode " + "=" * 5)
+    print("=" * 67 + "\t\t", Machine.current_date)
+
 
 
 
