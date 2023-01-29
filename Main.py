@@ -3,9 +3,7 @@
 # Description: VENDING_MACHINE v0.1 --- CURRENT WIP
 
 # NOTES:
-# todo: SUPPLY_LIST DICTIONARY IS READ FROM A FILE...???
-
-
+#
 # todo: At the beginning of each function, there is a string within triple quotation marks, called a docstring.
 #       It is used to explain how the function behaves. Style of the docstring can be found in PEP 257 Docstring
 #       Conventions.
@@ -17,7 +15,15 @@
 #       the class is intended to be subclassed, and has an additional interface for subclasses, this interface should be
 #       listed separately (in the docstring). The class constructor should be documented in the docstring for its
 #       __init__ method. Individual methods should be documented by their own docstring.
+"""Summary or Description of the Function
 
+ Parameters:
+ argument1 (int): Description of arg1
+
+ Returns:
+ int:Returning value
+
+"""
 
 from datetime import datetime
 
@@ -115,7 +121,14 @@ class User:
 # FUNCTIONS:
 # =========
 def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date, coins, items], [machine coins (coin_reserve)], [change given (value)]]
+    """
+    Function to calculate which coins can be dispensed to make up change, based on Machine coin reserve availability.
 
+    :param data: List containing current date, coin(s) inserted by user, item(s) selected by user.
+    :param machine_coins: Dictionary containing current Vending Machine coin reserves.
+    :param change_dispensed: int value of calculated change to be dispensed.
+    :return: List containing int values of coins to be dispensed as change, or a status message.
+    """
     change_counter = []
 
     for i in data:
