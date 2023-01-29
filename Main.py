@@ -121,6 +121,7 @@ class User:
 # FUNCTIONS:
 # =========
 def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date, coins, items], [machine coins (coin_reserve)], [change given (value)]]
+
     """
     Function to calculate which coins can be dispensed to make up change, based on Machine coin reserve availability.
 
@@ -129,6 +130,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
     :param change_dispensed: int value of calculated change to be dispensed.
     :return: List containing int values of coins to be dispensed as change, or a status message.
     """
+
     change_counter = []
 
     for i in data:
@@ -214,6 +216,13 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
 
 
 def display_coin_reserve():
+
+    """
+    Function to display the Machine class attribute dictionary containing coin reserves.
+
+    :return: None
+    """
+
     print("")
     print("*" * 5 + " Current Coin Reserve " + "*" * 5)
     for i, j in Machine.coin_reserve.items():
@@ -222,15 +231,29 @@ def display_coin_reserve():
 
 
 def display_supply_list():
+
+    """
+    Function to display the Machine class attribute dictionary containing supplies.
+
+    :return: None
+    """
+
     print("")
     print("*" * 5 + " Current Ingredient Supply " + "*" * 5)
-
     for i in Machine.supply_list:
         print("{}) Item: {}, Count: {}".format(i, Machine.supply_list[i][0], Machine.supply_list[i][1]))
     print("")
 
 
 def display_transactions_summary(data):
+
+    """
+    Function to display the current item(s) user has selected.
+
+    :param data: List containing selected item Objects.
+    :return: None
+    """
+
     print("*" * 66)
     print("CURRENT SELECTION(S):")
 
@@ -239,16 +262,20 @@ def display_transactions_summary(data):
 
     else:
         for i in range(len(data)):
-            # user_total_cost += data[i].price
             if data[i].name == 'Tea':
                 print("{}\t\t\t\t\t${:.2f}\t\tadd sugar: {}".format(data[i].name, data[i].price / 100, data[i].sugar))
-                # VendingMachine.total_cost += i[2]
             else:
                 print("{}\t\t\t\t${:.2f}\t\tadd sugar: {}".format(data[i].name, data[i].price / 100, data[i].sugar))
-                # VendingMachine.total_cost += i[2]
 
 
 def goodbye_message():
+
+    """
+    Function to display goodbye message and begin again.
+
+    :return: None
+    """
+
     print("")
     print("=" * 61)
     print("*" * 5 + " THANKYOU for using PYTHON VENDING MACHINE... GOODBYE!!! ")
@@ -258,6 +285,14 @@ def goodbye_message():
 
 
 def insert_coins(transactions_total):
+
+    """
+    Function to
+
+    :param transactions_total:
+    :return:
+    """
+
     print("")
     total_coins_entered = 0
     total_coin_list = []
