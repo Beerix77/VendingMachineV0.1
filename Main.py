@@ -15,20 +15,19 @@
 #       the class is intended to be subclassed, and has an additional interface for subclasses, this interface should be
 #       listed separately (in the docstring). The class constructor should be documented in the docstring for its
 #       __init__ method. Individual methods should be documented by their own docstring.
-"""Summary or Description of the Function
 
- Parameters:
- argument1 (int): Description of arg1
-
- Returns:
- int:Returning value
-
-"""
 
 from datetime import datetime
 
 
+# CLASSES:
+# ========
+
+
 class Machine:
+    """
+    Machine class containing ma
+    """
     # VARIABLES:
     # =========
     product_list = {1: ["Coffee", 200, 10, "no", 3, ""],
@@ -58,8 +57,6 @@ class Machine:
     transaction_history = []
 
 
-# CLASSES:
-# =======
 class Item:
 
     def __init__(self, name, price, count, sugar, time, stir, key_value):
@@ -116,6 +113,7 @@ class User:
 
     def __str__(self):
         return "{}\nPrice: ${:.2f}\n".format(self.selections, self.total_owed / 100)
+
 
 
 # FUNCTIONS:
