@@ -19,10 +19,6 @@
 #       __init__ method. Individual methods should be documented by their own docstring.
 
 
-# todo: The program should have an option for the admin to set the machine mode for example whether the machine is
-#       working or under maintenance. The message should be displayed to the user.
-#       If machine in * MAINTENANCE * mode display message must be changed by ADMIN to continue...
-
 from datetime import datetime
 
 
@@ -73,13 +69,12 @@ class Item:
 
     # CLASS CONSTRUCTOR:
     # =================
-    # todo: this def __str__ may have to be altered
-
 
     def __str__(self):  # print object if 'print(object_name instance of class Item)'
         return "{}\nPrice: ${:.2f}\nCount: {}\nOption to add sugar: {}\nTime to Prepare/Dispense: {}" \
-               " mins\nStirring option: '{}'\n".format(self.name, self.price / 100, self.count,
-                                                       self.sugar, self.time, self.stir)
+               " mins\nStirring option: '{}'\nSelection number{}".format(self.name, self.price / 100, self.count,
+                                                                         self.sugar, self.time, self.stir,
+                                                                         self.key_value)
 
     # CLASS METHODS:
     # =============
