@@ -11,6 +11,7 @@
 #       Conventions.
 # todo: When select to restock items and (item selected to restock) incorrect input, program goes back to 'enter number to restock'
 # todo: rename variables in: adjust_coins_reserve function
+# todo: check restart() function
 
 
 
@@ -107,7 +108,6 @@ class User:
 
 # FUNCTIONS:
 # =========
-
 def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date, coins, items], [machine coins (coin_reserve)], [change given (value)]]
 
     change_counter = []
@@ -260,7 +260,6 @@ def insert_coins(transactions_total):
                 display_transactions_summary(Machine.current_user_transaction_record)
                 post_selection_options(Machine.current_user_transaction_record)     # this procedure is to go back out of coin insertion mode
 
-
             elif Machine.valid_coins.count(int(inserted_coin)) > 0:  # check if valid coin entered
                 total_coins_entered += int(inserted_coin)
                 Machine.transaction_history.append(int(inserted_coin))
@@ -274,7 +273,6 @@ def insert_coins(transactions_total):
                 for i in Machine.valid_coins:
                     print("${:.2f}".format(i / 100), end=" ")
                 print("\n")
-
 
         except ValueError:
             print("Please enter a valid coin 'cents value' or press 'R' to refund...")
@@ -307,20 +305,6 @@ def insert_coins(transactions_total):
     else:
         for i in (adjust_coin_reserve(Machine.transaction_history, Machine.coin_reserve, change)):   #[Date, coins, items], [machine coins], [change given]]
             print("${:.2f}".format(i / 100))
-
-
-
-
-
-    """ 
-    this green code-block FOR TESTING ONLY.. DEL when finished with statistics
-        print("TESTING", Machine.statistics)
-        for i in Machine.statistics:
-            for j in i:
-                print(type(j))"""
-
-
-
 
     Machine.transaction_history = []
     goodbye_message()
@@ -367,240 +351,8 @@ def main_menu():
         select_product()
 
     else:
-        #Machine.machine_state = "* MAINTENANCE *"
         welcome_customer()
         maintenance()
-
-
-
-# TODO: Working Above ======= c option (maintenance()) =================================================================
-
-
-
-
-
-
-def post_selection_options(data):  # data = current_user_transaction_record (List of Item OBJECTS)
-    while True:
-        choice = input("Select 'P' to PAY, 'C' to CONTINUE BUYING, 'X' to rollback CURRENT transaction ('R' to RESTART all transactions and clear history): ").strip().lower()
-        print("")
-        if is_valid(choice, ['p', 'c', 'x', 'r']):
-            break
-
-    if choice == 'r':
-        while True:
-            confirmation = input("Do you wish to 'Y' CANCEL all transaction(s) or 'N' continue BUYING...").strip().lower()  # todo: is this S-007??
-            if confirmation == 'y':
-                for i in range(len(data)):
-                    unselect = data[i].key_value
-                    Machine.product_list[int(unselect)][2] += 1                 # restock ie unselect all items
-                    Machine.product_list[int(unselect)][3] = "no"
-
-
-                    if data[i].sugar == "yes":                      # restock all sugar if item had sugar selected as 'yes' (from tea + coffee) (HARD RESET OPTION)
-                        Machine.supply_list[5][1] += 1
-
-                    if data[i].name == "Coffee":           # restock Coffee Beans
-                        Machine.supply_list[6][1] += 1
-
-                Machine.current_user_transaction_record = []        # clear cache -- remove all transaction objects
-                restart()
-
-            elif confirmation == 'n':
-                display_transactions_summary(Machine.current_user_transaction_record)
-                break
-
-    elif choice == 'p':
-        running_total_owing()
-        display_transactions_summary(data)              # need to add final item in bucket, 'cost' to total owing
-        insert_coins(Machine.user_total_cost)
-
-    elif choice == 'c':                     # pressing 'c' LOCKS-IN the price of item in BUCKET
-        print("running TOTAL owing: ${:.2f}".format(running_total_owing() / 100))
-        select_product()
-
-    else:
-        # user has chosen 'X'                                   # this is U-007
-        if len(data) == 0:   # only for if 1st choice was not available and try  to 'X' rollback -SOLVED delete??
-            print("WARNING: You have no items selected...")
-
-        elif len(data) > 0:  # if there is at least 1 Object item in List....
-            last_item_selected_key = data[-1].key_value                     # data = current_user_transaction_record
-            Machine.product_list[int(last_item_selected_key)][2] += 1       # restock item
-
-
-            if int(data[-1].key_value) == 1 and data[-1].sugar == "yes":    # restocks sugar + coffee beans (coffee) and changes productlist back to "no"
-                Machine.supply_list[5][1] += 1
-                Machine.supply_list[6][1] += 1
-                Machine.product_list[int(last_item_selected_key)][3] = "no"
-
-
-            elif int(data[-1].key_value) == 2 and data[-1].sugar == "yes":   # restocks sugar (tea)
-                Machine.supply_list[5][1] += 1
-                Machine.product_list[int(last_item_selected_key)][3] = "no"
-
-            del data[-1]
-
-        display_transactions_summary(data)
-        post_selection_options(Machine.current_user_transaction_record)
-
-
-def refund_coins(coins):
-    print("Coins refunded: ")
-    for i in coins:
-        print("${:.2f}".format(i / 100), end=" ")   # 'end' allows horizontal printing
-    if len(coins) == 0:
-        print("No coins refunded as none were inserted...")
-    Machine.transaction_history = []    # reset coin history
-
-
-def restart():
-    main_menu()
-
-
-def running_total_owing():
-    Machine.user_total_cost = 0
-
-    for i in range(len(Machine.current_user_transaction_record)):
-        Machine.user_total_cost += Machine.current_user_transaction_record[i].price
-    return Machine.user_total_cost
-
-
-def select_product():
-    while True:
-
-        print("")
-        print("*" * 23)
-        print("*" * 5 + " Select Item " + "*" * 5)
-        print("*" * 23)
-
-        select_product_menu()
-
-        try:
-
-            selection = input("Choose an item (1-" + str(len(Machine.product_list)) +
-                              "), or ('M' to return to *** MAIN MENU ***): ").strip().lower()
-
-
-            if selection == 'm':
-                main_menu()
-
-            else:
-                if Machine.product_list[int(selection)][2] == 0:  # Count == 0 thus NO Object of class Item will be created
-                    print("Unfortunately there is 0", Machine.product_list[int(selection)][0], "remaining.\n")
-                    post_selection_options(Machine.current_user_transaction_record)
-
-                elif int(selection) == 1 and Machine.supply_list[6][1] == 0:    # if 'Coffee' chosen and 0 coffee beans...
-                    print("Unfortunately there are no more COFFEE BEANS for coffee...\n")
-                    continue
-
-                elif Machine.product_list[int(selection)][2] > 0:   # create an OBJECT of class ITEM.. IF selection > 0 count value
-                    Machine.product_list[int(selection)][2] -= 1    # subtracts item from product_list
-
-                    if int(selection) == 1:                        # if choose coffee subtract coffee beans also
-                        Machine.supply_list[6][1] -= 1
-
-                    current_user_item = Item(Machine.product_list[int(selection)][0],
-                                             Machine.product_list[int(selection)][1],
-                                             Machine.product_list[int(selection)][2],
-                                             Machine.product_list[int(selection)][3],
-                                             Machine.product_list[int(selection)][4],
-                                             Machine.product_list[int(selection)][5],
-                                             selection)  # an instance of chosen item
-
-                    # if Tea or Coffee...Sugar is available for this item...
-                    if int(selection) == 1 or int(selection) == 2:
-                        while True:
-                            print("Add sugar to", current_user_item.name, "?")
-                            sugar_option = input("(Y/N): ").strip().lower()
-
-                            if is_valid(sugar_option, ['y', 'n', 'yes', 'no']):
-                                break
-
-                        if (sugar_option == 'y' or sugar_option == 'yes') and Machine.supply_list[5][1] > 0:
-                            current_user_item.sugar = "yes"  # adds sugar to item ie "yes"
-                            Machine.supply_list[5][1] -= 1  # subtracts sugar from SUPPLY LIST
-
-                            while True:
-                                stir = input("MANUAL or AUTO stirring sugar? ").strip().lower()
-
-                                if is_valid(stir, ['a', 'm', 'auto', 'manual']):
-                                    break
-
-                            if stir == 'a' or stir == 'auto':
-                                print("Your sugar addition to", current_user_item.name, "will be AUTOMATICALLY stirred.")
-                                current_user_item.stir = "AUTO"
-
-                            else:
-                                current_user_item.stir = "MANUAL"
-
-                        elif (sugar_option == 'y' or sugar_option == 'yes') and Machine.supply_list[5][1] == 0:
-                            print("Unfortunately Vending Machine is OUT OF SUGAR...")
-
-                    Machine.current_user_transaction_record.append(current_user_item)              # this will be a list == [[transaction object 1], [...], [...]]
-                    display_transactions_summary(Machine.current_user_transaction_record)
-
-                    print("")
-                    post_selection_options(Machine.current_user_transaction_record)
-
-
-
-        except KeyError:
-            print("Please enter a valid NUMBER within range...")
-            select_product()
-
-        except ValueError:
-            print("Please enter a valid NUMBER integer...")
-            select_product()
-
-
-def select_product_menu():
-    for i in Machine.product_list:
-        print("{}) {}".format(i, Machine.product_list[i][0]))
-
-
-def turn_on():
-    welcome_message(Machine.machine_state)
-    main_menu()
-
-
-def wait_time(data):
-    wait = 0
-    for i in data:
-        wait += i.time
-    return wait
-
-
-def welcome_message(machine_state):
-    print("")
-    print("=" * 63)
-    print("*" * 5 + " WELCOME!!! PYTHON VENDING MACHINE: " + machine_state + " mode " + "*" * 5)
-    print("=" * 63 + "\t\t", Machine.current_date)
-
-
-
-# =====================================================================================================================
-
-# TODO 1/1: variable for: WORKING/MAINTENANCE mode
-# todo: The program should have an option for the admin to set the machine mode for example whether the machine is
-#  working or under maintenance. The message should be displayed to the user.
-
-
-
-def welcome_customer():
-    print("")
-    print("*" * 59)
-    print("***** Welcome to CUSTOMER ADMIN:", Machine.machine_state, "mode *****")
-    print("*" * 59 + "\t\t", Machine.current_date)
-    print("")
-    for i in Machine.product_list:
-        if Machine.product_list[i][2] == 0:
-            print("WARNING!!! Item:", Machine.product_list[i][0], "has 0 stock available...")
-
-
-    for i in Machine.supply_list:
-        if Machine.supply_list[i][1] == 0:
-            print("WARNING!!! Ingredient Item:", Machine.supply_list[i][0], "has 0 stock available...")
 
 
 def maintenance():
@@ -663,11 +415,8 @@ def maintenance():
                     Machine.supply_list[int(restock)][1] += count
                     print("RESTOCKING...")
 
-
             except ValueError:
                 print("Please enter an integer number...")
-
-
 
     elif customer == 'c':
         print("")
@@ -694,7 +443,6 @@ def maintenance():
 
         maintenance()
 
-
     elif customer == 'd':
         if Machine.machine_state == "* WORKING *":
             Machine.machine_state = "* MAINTENANCE *"
@@ -706,15 +454,6 @@ def maintenance():
             welcome_customer()
             maintenance()
 
-
-
-
-
-
-
-
-
-
     elif customer == 'r':
         Machine.transaction_history.clear()
         Machine.statistics.clear()
@@ -722,6 +461,226 @@ def maintenance():
 
     else:
         main_menu()
+
+# TODO: Working Above ======= c option (maintenance()) =================================================================
+
+
+def post_selection_options(data):  # data = current_user_transaction_record (List of Item OBJECTS)
+    while True:
+        choice = input("Select 'P' to PAY, 'C' to CONTINUE BUYING, 'X' to rollback CURRENT transaction ('R' to RESTART all transactions and clear history): ").strip().lower()
+        print("")
+        if is_valid(choice, ['p', 'c', 'x', 'r']):
+            break
+
+    if choice == 'r':
+        while True:
+            confirmation = input("Do you wish to 'Y' CANCEL all transaction(s) or 'N' continue BUYING...").strip().lower()  # todo: is this S-007??
+            if confirmation == 'y':
+                for i in range(len(data)):
+                    unselect = data[i].key_value
+                    Machine.product_list[int(unselect)][2] += 1                 # restock ie unselect all items
+                    Machine.product_list[int(unselect)][3] = "no"
+
+                    if data[i].sugar == "yes":                      # restock all sugar if item had sugar selected as 'yes' (from tea + coffee) (HARD RESET OPTION)
+                        Machine.supply_list[5][1] += 1
+
+                    if data[i].name == "Coffee":           # restock Coffee Beans
+                        Machine.supply_list[6][1] += 1
+
+                Machine.current_user_transaction_record = []        # clear cache -- remove all transaction objects
+                restart()
+
+            elif confirmation == 'n':
+                display_transactions_summary(Machine.current_user_transaction_record)
+                break
+
+    elif choice == 'p':
+        running_total_owing()
+        display_transactions_summary(data)              # need to add final item in bucket, 'cost' to total owing
+        insert_coins(Machine.user_total_cost)
+
+    elif choice == 'c':                     # pressing 'c' LOCKS-IN the price of item in BUCKET
+        print("running TOTAL owing: ${:.2f}".format(running_total_owing() / 100))
+        select_product()
+
+    else:
+        # user has chosen 'X'                                   # this is U-007
+        if len(data) == 0:   # only for if 1st choice was not available and try  to 'X' rollback -SOLVED delete??
+            print("WARNING: You have no items selected...")
+
+        elif len(data) > 0:  # if there is at least 1 Object item in List....
+            last_item_selected_key = data[-1].key_value                     # data = current_user_transaction_record
+            Machine.product_list[int(last_item_selected_key)][2] += 1       # restock item
+
+            if int(data[-1].key_value) == 1 and data[-1].sugar == "yes":    # restocks sugar + coffee beans (coffee) and changes productlist back to "no"
+                Machine.supply_list[5][1] += 1
+                Machine.supply_list[6][1] += 1
+                Machine.product_list[int(last_item_selected_key)][3] = "no"
+
+            elif int(data[-1].key_value) == 2 and data[-1].sugar == "yes":   # restocks sugar (tea)
+                Machine.supply_list[5][1] += 1
+                Machine.product_list[int(last_item_selected_key)][3] = "no"
+
+            del data[-1]
+
+        display_transactions_summary(data)
+        post_selection_options(Machine.current_user_transaction_record)
+
+
+def refund_coins(coins):
+    print("Coins refunded: ")
+    for i in coins:
+        print("${:.2f}".format(i / 100), end=" ")   # 'end' allows horizontal printing
+    if len(coins) == 0:
+        print("No coins refunded as none were inserted...")
+    Machine.transaction_history = []    # reset coin history
+
+
+def restart():
+    main_menu()
+
+
+def running_total_owing():
+    Machine.user_total_cost = 0
+
+    for i in range(len(Machine.current_user_transaction_record)):
+        Machine.user_total_cost += Machine.current_user_transaction_record[i].price
+    return Machine.user_total_cost
+
+
+def select_product():
+    while True:
+
+        print("")
+        print("*" * 23)
+        print("*" * 5 + " Select Item " + "*" * 5)
+        print("*" * 23)
+
+        select_product_menu()
+
+        try:
+
+            selection = input("Choose an item (1-" + str(len(Machine.product_list)) +
+                              "), or ('M' to return to *** MAIN MENU ***): ").strip().lower()
+
+            if selection == 'm':
+                main_menu()
+
+            else:
+                if Machine.product_list[int(selection)][2] == 0:  # Count == 0 thus NO Object of class Item will be created
+                    print("Unfortunately there is 0", Machine.product_list[int(selection)][0], "remaining.\n")
+                    post_selection_options(Machine.current_user_transaction_record)
+
+                elif int(selection) == 1 and Machine.supply_list[6][1] == 0:    # if 'Coffee' chosen and 0 coffee beans...
+                    print("Unfortunately there are no more COFFEE BEANS for coffee...\n")
+                    continue
+
+                elif Machine.product_list[int(selection)][2] > 0:   # create an OBJECT of class ITEM.. IF selection > 0 count value
+                    Machine.product_list[int(selection)][2] -= 1    # subtracts item from product_list
+
+                    if int(selection) == 1:                        # if choose coffee subtract coffee beans also
+                        Machine.supply_list[6][1] -= 1
+
+                    current_user_item = Item(Machine.product_list[int(selection)][0],
+                                             Machine.product_list[int(selection)][1],
+                                             Machine.product_list[int(selection)][2],
+                                             Machine.product_list[int(selection)][3],
+                                             Machine.product_list[int(selection)][4],
+                                             Machine.product_list[int(selection)][5],
+                                             selection)  # an instance of chosen item
+
+                    # if Tea or Coffee...Sugar is available for this item...
+                    if int(selection) == 1 or int(selection) == 2:
+                        while True:
+                            print("Add sugar to", current_user_item.name, "?")
+                            sugar_option = input("(Y/N): ").strip().lower()
+
+                            if is_valid(sugar_option, ['y', 'n', 'yes', 'no']):
+                                break
+
+                        if (sugar_option == 'y' or sugar_option == 'yes') and Machine.supply_list[5][1] > 0:
+                            current_user_item.sugar = "yes"  # adds sugar to item ie "yes"
+                            Machine.supply_list[5][1] -= 1  # subtracts sugar from SUPPLY LIST
+
+                            while True:
+                                stir = input("MANUAL or AUTO stirring sugar? ").strip().lower()
+
+                                if is_valid(stir, ['a', 'm', 'auto', 'manual']):
+                                    break
+
+                            if stir == 'a' or stir == 'auto':
+                                print("Your sugar addition to", current_user_item.name, "will be AUTOMATICALLY stirred.")
+                                current_user_item.stir = "AUTO"
+
+                            else:
+                                current_user_item.stir = "MANUAL"
+
+                        elif (sugar_option == 'y' or sugar_option == 'yes') and Machine.supply_list[5][1] == 0:
+                            print("Unfortunately Vending Machine is OUT OF SUGAR...")
+
+                    Machine.current_user_transaction_record.append(current_user_item)              # this will be a list == [[transaction object 1], [...], [...]]
+                    display_transactions_summary(Machine.current_user_transaction_record)
+
+                    print("")
+                    post_selection_options(Machine.current_user_transaction_record)
+
+        except KeyError:
+            print("Please enter a valid NUMBER within range...")
+            select_product()
+
+        except ValueError:
+            print("Please enter a valid NUMBER integer...")
+            select_product()
+
+
+def select_product_menu():
+    for i in Machine.product_list:
+        print("{}) {}".format(i, Machine.product_list[i][0]))
+
+
+def turn_on():
+    welcome_message(Machine.machine_state)
+    main_menu()
+
+
+def wait_time(data):
+    wait = 0
+    for i in data:
+        wait += i.time
+    return wait
+
+
+def welcome_customer():
+    print("")
+    print("*" * 59)
+    print("***** Welcome to CUSTOMER ADMIN:", Machine.machine_state, "mode *****")
+    print("*" * 59 + "\t\t", Machine.current_date)
+    print("")
+    for i in Machine.product_list:
+        if Machine.product_list[i][2] == 0:
+            print("WARNING!!! Item:", Machine.product_list[i][0], "has 0 stock available...")
+
+    for i in Machine.supply_list:
+        if Machine.supply_list[i][1] == 0:
+            print("WARNING!!! Ingredient Item:", Machine.supply_list[i][0], "has 0 stock available...")
+
+
+def welcome_message(machine_state):
+    print("")
+    print("=" * 63)
+    print("*" * 5 + " WELCOME!!! PYTHON VENDING MACHINE: " + machine_state + " mode " + "*" * 5)
+    print("=" * 63 + "\t\t", Machine.current_date)
+
+
+
+# =====================================================================================================================
+
+# TODO 1/1: variable for: WORKING/MAINTENANCE mode
+# todo: The program should have an option for the admin to set the machine mode for example whether the machine is
+#  working or under maintenance. The message should be displayed to the user.
+
+
+
 
 # =============================================== MAIN BODY BELOW =====================================================
 
