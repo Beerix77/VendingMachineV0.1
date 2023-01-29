@@ -385,7 +385,7 @@ def is_valid(data, choices):  # choices are in a list
 def list_products():
 
     """
-    Function to display list of products from a class attribute dictionary.
+    Function to display list of products from a class attribute dictionary for informational purposes.
 
     :return: None
     """
@@ -558,10 +558,11 @@ def maintenance():
 def post_selection_options(data):  # data = current_user_transaction_record (List of Item OBJECTS)
 
     """
-    Fucntion to
+    Function to provide further options once user selects an item. User can opt to pay, continue choosing further items,
+    rollback the 'current' selection from the 'bucket' or reset all selections.
 
-    :param data:
-    :return:
+    :param data: List of product item Objects
+    :return: None
     """
 
     while True:
@@ -626,6 +627,14 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
 
 
 def refund_coins(coins):
+
+    """
+    Function to return coins should user decide to start over whilst inserting coins.
+
+    :param coins: List containing int values of coins that user has inserted so far.
+    :return: None
+    """
+
     print("Coins refunded: ")
     for i in coins:
         print("${:.2f}".format(i / 100), end=" ")   # 'end' allows horizontal printing
@@ -635,6 +644,13 @@ def refund_coins(coins):
 
 
 def running_total_owing():
+
+    """
+    Function to calculate the running total owed by user as items are selected.
+
+    :return: int value of total cost owed by the user based on items chosen.
+    """
+
     Machine.user_total_cost = 0
 
     for i in range(len(Machine.current_user_transaction_record)):
@@ -643,6 +659,13 @@ def running_total_owing():
 
 
 def select_product():
+    """
+    Function that creates Object instances for each item that is selected by user and, provides further options based
+     on user item choice.
+
+    :return: None
+    """
+
     while True:
 
         print("")
@@ -728,16 +751,38 @@ def select_product():
 
 
 def select_product_menu():
+
+    """
+    Function to display the current product list.
+
+    :return: None
+    """
+
     for i in Machine.product_list:
         print("{}) {}".format(i, Machine.product_list[i][0]))
 
 
 def turn_on():
+
+    """
+    Function serves as entry point to execute the vending machine program.
+
+    :return: None
+    """
+
     welcome_user(Machine.machine_state)
     main_menu()
 
 
 def wait_time(data):
+
+    """
+    Function to calculate the total wait time based on items chosen.
+
+    :param data: List of item Objects and their attributes.
+    :return: int value consisting of total wait time.
+    """
+
     wait = 0
     for i in data:
         wait += i.time
@@ -745,6 +790,13 @@ def wait_time(data):
 
 
 def welcome_customer():
+
+    """
+    Function to welcome 'Customer' and display any warnings such as stock/coin shortages. Also displays machine status.
+
+    :return: None
+    """
+
     print("")
     print("*" * 59)
     print("*" * 5 + " Welcome to CUSTOMER ADMIN:", Machine.machine_state, "mode " + "*" * 5)
@@ -758,8 +810,19 @@ def welcome_customer():
         if Machine.supply_list[i][1] == 0:
             print("WARNING!!! Ingredient Item:", Machine.supply_list[i][0], "has 0 stock available...")
 
+    for i in Machine.coin_reserve:
+        if Machine.coin_reserve[i][1] == 0:
+            print("WARNING!!! Ingredient Item:", Machine.supply_list[i][0], "has 0 stock available...")
+
 
 def welcome_user(machine_state):
+
+    """
+    Function to welcome 'User' and displays machine status.
+
+    :return: None
+    """
+
     print("")
     print("=" * 67)
     print("=" * 5 + " WELCOME!!! PYTHON VENDING MACHINE: " + machine_state + " mode " + "=" * 5)
@@ -770,6 +833,6 @@ def welcome_user(machine_state):
 
 # =============================================== MAIN BODY BELOW =====================================================
 
-
+# todo if main == main
 turn_on()
 
