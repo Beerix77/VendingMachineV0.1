@@ -1,12 +1,9 @@
-# Date: January 2022 (17/01/22)
+# Date: January 2022 (30/01/22)
 # Name: Andrew Matysiak
 # Description: VENDING_MACHINE v0.1 --- CURRENT WIP
 
 # NOTES:
-# todo: SUPPLY_LIST DICTIONARY IS READ FROM A FILE...
-
-
-# todo: if machine in * MAINTENANCE * mode display message must be changed by ADMIN to continue...
+# todo: SUPPLY_LIST DICTIONARY IS READ FROM A FILE...???
 
 
 # todo: At the beginning of each function, there is a string within triple quotation marks, called a docstring.
@@ -22,6 +19,9 @@
 #       __init__ method. Individual methods should be documented by their own docstring.
 
 
+# todo: The program should have an option for the admin to set the machine mode for example whether the machine is
+#       working or under maintenance. The message should be displayed to the user.
+#       If machine in * MAINTENANCE * mode display message must be changed by ADMIN to continue...
 
 from datetime import datetime
 
@@ -473,6 +473,7 @@ def maintenance():
         turn_on()
 
     else:
+        welcome_user(Machine.machine_state)
         main_menu()
 
 
@@ -646,7 +647,7 @@ def select_product_menu():
 
 
 def turn_on():
-    welcome_message(Machine.machine_state)
+    welcome_user(Machine.machine_state)
     main_menu()
 
 
@@ -672,20 +673,13 @@ def welcome_customer():
             print("WARNING!!! Ingredient Item:", Machine.supply_list[i][0], "has 0 stock available...")
 
 
-def welcome_message(machine_state):
+def welcome_user(machine_state):
     print("")
     print("=" * 63)
     print("*" * 5 + " WELCOME!!! PYTHON VENDING MACHINE: " + machine_state + " mode " + "*" * 5)
     print("=" * 63 + "\t\t", Machine.current_date)
-
-
-
-
-
-
-# todo 1/1: The program should have an option for the admin to set the machine mode for example whether the machine is
-#  working or under maintenance. The message should be displayed to the user.
-
+    if Machine.machine_state == "* MAINTENANCE *":
+        print("WARNING!!! Vending Machine is currently in * MAINTENANCE * mode...Use Customer Menu to change status...")
 
 
 
