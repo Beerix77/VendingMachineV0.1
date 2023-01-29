@@ -44,7 +44,7 @@ class Machine:
 
     paper_money = [500, 1000, 2000, 5000, 10000]
 
-    coin_reserve = {5: 0, 10: 10, 20: 10, 50: 10, 100: 10, 200: 10}
+    coin_reserve = {5: 0, 10: 10, 20: 10, 50: 10, 100: 0, 200: 10}
 
     current_user_transaction_record = []
 
@@ -808,8 +808,8 @@ def welcome_customer():
             print("WARNING!!! Ingredient Item:", Machine.supply_list[i][0], "has 0 stock available...")
 
     for i in Machine.coin_reserve:
-        if Machine.coin_reserve.values() == 0:
-            print("WARNING!!! There are no ${:.2f} remaining...".format(Machine.coin_reserve[i] / 100))
+        if Machine.coin_reserve[i] == 0:
+            print("WARNING!!! There are no ${:.2f} coins remaining...".format(i / 100))
 
 
 def welcome_user(machine_state):
