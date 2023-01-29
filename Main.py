@@ -33,7 +33,7 @@ class Machine:
     # =========
     product_list = {1: ["Coffee", 200, 10, "no", 3, ""],
                     2: ["Tea", 150, 8, "no", 2, ""],
-                    3: ["Cola", 250, 3, "n/a", 1, ""],
+                    3: ["Coke", 250, 3, "n/a", 1, ""],
                     4: ["Juice", 400, 0, "n/a", 1, ""]}
 
     supply_list = {5: ["Sugar", 100],
