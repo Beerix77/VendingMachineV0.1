@@ -66,9 +66,12 @@ class Item:
     # CLASS CONSTRUCTOR:
     # =================
     # todo: this def __str__ may have to be altered
+
+
     def __str__(self):  # print object if 'print(object_name instance of class Item)'
-        return "{}\nPrice: ${:.2f}\nCount: {}\nOption to add sugar: {}\nTime to Prepare/Dispense: {} mins\nStirring option: '{}'\n".format(
-            self.name, self.price / 100, self.count, self.sugar, self.time, self.stir)
+        return "{}\nPrice: ${:.2f}\nCount: {}\nOption to add sugar: {}\nTime to Prepare/Dispense: {}" \
+               " mins\nStirring option: '{}'\n".format(self.name, self.price / 100, self.count,
+                                                       self.sugar, self.time, self.stir)
 
     # CLASS METHODS:
     # =============
@@ -126,7 +129,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
             b = change_dispensed
 
         # 50c
-        x = b // 50     # z = number of times 50c can go into change remaining (b)
+        x = b // 50     # x = number of times 50c can go into change remaining (b)
         if b >= 50 and Machine.coin_reserve[50] >= x:    # here have enough 50c for ALL calcs
 
             for i in range(x):
@@ -171,7 +174,7 @@ def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date,
                 b -= 10
 
         # 5c
-        w = b // 5  # z = number of times 5c can go into change remaining (b)
+        w = b // 5  # w = number of times 5c can go into change remaining (b)
         if b >= 5 and Machine.coin_reserve[5] >= w:  # here have enough 5c for ALL calcs
             for i in range(w):
                 Machine.coin_reserve[5] -= 1
@@ -240,10 +243,9 @@ def goodbye_message():
 
 def insert_coins(transactions_total):
     print("")
-                                                        # TODO: do S-007 here...
     total_coins_entered = 0
     total_coin_list = []
-    change = 0 # leave this?
+    change = 0
 
     while total_coins_entered < transactions_total:
         print("TOTAL owing: ${:.2f}".format(Machine.user_total_cost / 100))
@@ -462,8 +464,6 @@ def maintenance():
     else:
         main_menu()
 
-# TODO: Working Above ======= c option (maintenance()) =================================================================
-
 
 def post_selection_options(data):  # data = current_user_transaction_record (List of Item OBJECTS)
     while True:
@@ -673,10 +673,10 @@ def welcome_message(machine_state):
 
 
 
-# =====================================================================================================================
 
-# TODO 1/1: variable for: WORKING/MAINTENANCE mode
-# todo: The program should have an option for the admin to set the machine mode for example whether the machine is
+
+
+# todo 1/1: The program should have an option for the admin to set the machine mode for example whether the machine is
 #  working or under maintenance. The message should be displayed to the user.
 
 
