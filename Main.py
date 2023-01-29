@@ -35,7 +35,7 @@ class Machine:
                     3: ["Coke", 250, 3, "n/a", 1, ""],
                     4: ["Juice", 400, 0, "n/a", 1, ""]}
 
-    supply_list = {5: ["Sugar", 100],
+    supply_list = {5: ["Sugar", 0],
                    6: ["Coffee Beans", 100]}
 
     current_date = datetime.now().strftime("%d-%m-20%y")
@@ -44,7 +44,7 @@ class Machine:
 
     paper_money = [500, 1000, 2000, 5000, 10000]
 
-    coin_reserve = {5: 10, 10: 10, 20: 10, 50: 10, 100: 10, 200: 10}
+    coin_reserve = {5: 0, 10: 10, 20: 10, 50: 10, 100: 10, 200: 10}
 
     current_user_transaction_record = []
 
@@ -115,11 +115,10 @@ class User:
         return "{}\nPrice: ${:.2f}\n".format(self.selections, self.total_owed / 100)
 
 
-
 # FUNCTIONS:
 # =========
-def adjust_coin_reserve(data, machine_coins, change_dispensed):          #[Date, coins, items], [machine coins (coin_reserve)], [change given (value)]]
-
+def adjust_coin_reserve(data, machine_coins, change_dispensed):
+    # [Date, coins, items], [Machine.coin_reserve], [change calculated(value)]]
     """
     Function to calculate which coins can be dispensed to make up change, based on Machine coin reserve availability.
 
@@ -809,8 +808,8 @@ def welcome_customer():
             print("WARNING!!! Ingredient Item:", Machine.supply_list[i][0], "has 0 stock available...")
 
     for i in Machine.coin_reserve:
-        if Machine.coin_reserve[i][1] == 0:
-            print("WARNING!!! Ingredient Item:", Machine.supply_list[i][0], "has 0 stock available...")
+        if Machine.coin_reserve.values() == 0:
+            print("WARNING!!! There are no ${:.2f} remaining...".format(Machine.coin_reserve[i] / 100))
 
 
 def welcome_user(machine_state):
