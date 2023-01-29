@@ -287,10 +287,11 @@ def goodbye_message():
 def insert_coins(transactions_total):
 
     """
-    Function to
+    Function to simulate coin insertion. User must enter correct coin denominations. Wait time and dispension of item(s)
+    is also simulated. Once item(s) are dispensed the user 'bucket' is reset.
 
-    :param transactions_total:
-    :return:
+    :param transactions_total: int value of the total cost of selected items.
+    :return: None
     """
 
     print("")
@@ -367,6 +368,14 @@ def insert_coins(transactions_total):
 
 
 def is_valid(data, choices):  # choices are in a list
+    """
+    A utility function to ensure user enters correct/valid data.
+
+    :param data: variable containing user input of various Type.
+    :param choices: a list containing only valid data which is used to cross-check with data variable (user input).
+    :return: True or False
+    """
+
     if data in choices:
         return True
     print("Please enter a valid choice...")
@@ -374,6 +383,13 @@ def is_valid(data, choices):  # choices are in a list
 
 
 def list_products():
+
+    """
+    Function to display list of products from a class attribute dictionary.
+
+    :return: None
+    """
+
     print("")
     print("*" * 7 + " CURRENT PRODUCT LIST " + "*" * 7)
     for i in Machine.product_list:
@@ -387,6 +403,13 @@ def list_products():
 
 
 def main_menu():
+
+    """
+    Function to display and provide multiple options for user.
+
+    :return: None
+    """
+
     while True:
         print("")
         menu_choice = input("Please select from the following MAIN MENU (a, b, or c):\n"
@@ -416,6 +439,14 @@ def main_menu():
 
 
 def maintenance():
+
+    """
+    Function to display various customer/admin options and executing restocking options (coins/products/supplies). Also
+     used for changing machine status and writing statistical data to a 'transactions.txt' file.
+
+    :return: None
+    """
+
     while True:
         print("")
         print("Please choose from the following:\n")
@@ -525,6 +556,14 @@ def maintenance():
 
 
 def post_selection_options(data):  # data = current_user_transaction_record (List of Item OBJECTS)
+
+    """
+    Fucntion to
+
+    :param data:
+    :return:
+    """
+
     while True:
         choice = input("Select 'P' to PAY, 'C' to CONTINUE BUYING, 'X' to rollback CURRENT transaction ('R' to RESTART all transactions and clear history): ").strip().lower()
         print("")
