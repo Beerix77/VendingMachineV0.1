@@ -595,7 +595,11 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
     elif choice == 'p':
         running_total_owing()
         display_transactions_summary(data)              # need to add final item in bucket, 'cost' to total owing
-        insert_coins(Machine.user_total_cost)
+
+        if len(data) < 1:
+            print("Cannot proceed to Payment as 0 items currently selected...")
+        else:
+            insert_coins(Machine.user_total_cost)
 
     elif choice == 'c':                     # pressing 'c' LOCKS-IN the price of item in BUCKET
         print("running TOTAL owing: ${:.2f}".format(running_total_owing() / 100))
