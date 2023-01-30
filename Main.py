@@ -829,9 +829,5 @@ def welcome_user(machine_state):
 
 
 
-
-# =============================================== MAIN BODY BELOW =====================================================
-
-# todo if main == main
-turn_on()
-
+if __name__ == "__main__":
+    turn_on()
