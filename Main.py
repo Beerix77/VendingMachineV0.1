@@ -598,6 +598,7 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
 
         if len(data) < 1:
             print("Cannot proceed to Payment as 0 items currently selected...")
+            select_product()
         else:
             insert_coins(Machine.user_total_cost)
 
