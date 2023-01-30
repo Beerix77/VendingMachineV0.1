@@ -505,6 +505,9 @@ def maintenance():
                     Machine.supply_list[int(restock)][1] += count
                     print("RESTOCKING...")
 
+                else:
+                    print("This item number does not exist!..")
+
             except ValueError:
                 print("Please enter an integer number...")
 
