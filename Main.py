@@ -37,8 +37,8 @@ class Machine:
                     3: ["Coke", 250, 3, "n/a", 1, ""],
                     4: ["Juice", 400, 0, "n/a", 1, ""]}
 
-    supply_list = {5: ["Sugar", 0],
-                   6: ["Coffee Beans", 100]}
+    supply_list = {5: ["Sugar", 10],
+                   6: ["Coffee Beans", 0]}
 
     current_date = datetime.now().strftime("%d-%m-20%y")
 
@@ -368,9 +368,9 @@ def insert_coins(transactions_total):
 
 def is_valid(data, choices):  # choices are in a list
     """
-    A utility function to ensure user enters correct/valid data.
+    A utility function to ensure user enters correct/valid data. Used to validate input data.
 
-    :param data: variable containing user input of various Type.
+    :param data: variable containing user input (can be of any Type.)
     :param choices: a list containing only valid data which is used to cross-check with data variable (user input).
     :return: True or False
     """
