@@ -1,4 +1,4 @@
-# Date: January 2022 (31/01/22)
+# Date: January 2023 (31/01/22)
 # Name: Andrew Matysiak
 # Description: VENDING_MACHINE v0.1 --- CURRENT WIP
 
@@ -60,6 +60,9 @@ class Machine:
 
 
 class Item:
+    """
+    Class Item consists of instance variables which are used when objects ...
+    """
 
     def __init__(self, name, price, count, sugar, time, stir, key_value):
         self.name = name
@@ -75,7 +78,9 @@ class Item:
     # CLASS CONSTRUCTOR:
     # =================
 
-    def __str__(self):  # print object if 'print(object_name instance of class Item)'
+
+    def __str__(self):      # print object if 'print(object_name instance of class Item)'
+
         return "{}\nPrice: ${:.2f}\nCount: {}\nOption to add sugar: {}\nTime to Prepare/Dispense: {}" \
                " mins\nStirring option: '{}'\nSelection number{}".format(self.name, self.price / 100, self.count,
                                                                          self.sugar, self.time, self.stir,
@@ -104,7 +109,7 @@ class Item:
     def get_key(self):
         return self.key_value
 
-
+"""
 class User:
 
     # CLASS INSTANCE VARIABLES:
@@ -115,7 +120,7 @@ class User:
 
     def __str__(self):
         return "{}\nPrice: ${:.2f}\n".format(self.selections, self.total_owed / 100)
-
+"""
 
 # FUNCTIONS:
 # =========
