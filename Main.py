@@ -124,7 +124,9 @@ class User:
 
 # FUNCTIONS:
 # =========
-def adjust_coin_reserve(data, machine_coins, change_dispensed):
+
+
+def calculate_change(data, machine_coins, change_dispensed):
     # [Date, coins, items], [Machine.coin_reserve], [change calculated(value)]]
     """
     Function to calculate which coins can be dispensed to make up change, based on Machine coin reserve availability.
@@ -260,7 +262,6 @@ def display_transactions_summary(data):
 
     print("*" * 66)
     print("CURRENT SELECTION(S):")
-
     if len(data) == 0:
         print("No current selections...")
 
@@ -361,7 +362,7 @@ def insert_coins(transactions_total):
         print("$0.00 change")
 
     else:
-        for i in (adjust_coin_reserve(Machine.transaction_history, Machine.coin_reserve, change)):   #[Date, coins, items], [machine coins], [change given]]
+        for i in (calculate_change(Machine.transaction_history, Machine.coin_reserve, change)):   #[Date, coins, items], [machine coins], [change given]]
             if type(i) == str:
                 print(i)
             else:
