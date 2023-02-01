@@ -55,7 +55,6 @@ class Item:
         self.stir = stir
         self.key_value = key_value
 
-
     def __str__(self):
         return "{}\nPrice: ${:.2f}\nCount: {}\nOption to add sugar: {}\nTime to Prepare/Dispense: {}" \
                " mins\nStirring option: '{}'\nSelection number{}".format(self.name, self.price / 100, self.count,
@@ -574,7 +573,7 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
         if len(data) == 0:   # this is only True if 1st choice was not available and try to 'X' rollback
             print("WARNING: You have no items selected...")
 
-        elif len(data) > 0:  # if there is at least 1 Object item in List....
+        elif len(data) > 0:  # if there is at least 1 Object item in List
             last_item_selected_key = data[-1].key_value                     # data = current_user_transaction_record
             Machine.product_list[int(last_item_selected_key)][2] += 1       # restock item
 
@@ -799,7 +798,6 @@ def welcome_user(machine_state):
     print("=" * 67)
     print("=" * 5 + " WELCOME!!! PYTHON VENDING MACHINE: " + machine_state + " mode " + "=" * 5)
     print("=" * 67 + "\t\t", Machine.current_date)
-
 
 
 if __name__ == "__main__":
