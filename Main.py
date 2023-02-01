@@ -522,8 +522,8 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
     """
 
     while True:
-        choice = input("Select 'P' to PAY, 'C' to CONTINUE BUYING, 'X' to rollback CURRENT transaction"
-                       " ('R' to RESTART all transactions and clear history): ").strip().lower()
+        choice = input("Select 'P' to PAY, 'C' to CONTINUE BUYING, 'X' to ROLLBACK CURRENT transaction"
+                       " , 'R' to RESTART all transactions and clear history: ").strip().lower()
         print("")
         if is_valid(choice, ['p', 'c', 'x', 'r']):
             break
