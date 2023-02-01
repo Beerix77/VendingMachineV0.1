@@ -85,7 +85,7 @@ class Item:
                " mins\nStirring option: '{}'\nSelection number{}".format(self.name, self.price / 100, self.count,
                                                                          self.sugar, self.time, self.stir,
                                                                          self.key_value)
-
+"""
     # CLASS METHODS:
     # =============
     def get_name(self):
@@ -109,7 +109,7 @@ class Item:
     def get_key(self):
         return self.key_value
 
-"""
+
 class User:
 
     # CLASS INSTANCE VARIABLES:
