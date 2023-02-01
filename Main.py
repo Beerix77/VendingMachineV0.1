@@ -284,14 +284,6 @@ def insert_coins(transactions_total):
                         display_transactions_summary(Machine.current_user_transaction_record)
                         break
 
-
-
-
-
-
-
-
-
             elif inserted_coin == 'r':
                 refund_coins(Machine.transaction_history)
                 print("\n")
@@ -299,18 +291,6 @@ def insert_coins(transactions_total):
                 display_transactions_summary(Machine.current_user_transaction_record)
                 # this procedure is to go back out of coin insertion mode
                 post_selection_options(Machine.current_user_transaction_record)
-
-
-
-
-
-
-
-
-
-
-
-
 
             elif Machine.valid_coins.count(int(inserted_coin)) > 0:  # check if valid coin entered
                 total_coins_entered += int(inserted_coin)
@@ -579,9 +559,9 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
         if is_valid(choice, ['p', 's', 'x', 'c']):
             break
 
-    if choice == 'c':    # or choice == 'r':
+    if choice == 'c':
         while True:
-            confirmation = input("Do you wish to 'Y' CANCEL all transaction(s) or"
+            confirmation = input("Do you wish to 'Y' CLEAR all transaction(s) or"
                                  " 'N' continue SELECTING...").strip().lower()
             if confirmation == 'y':
                 for i in range(len(data)):
