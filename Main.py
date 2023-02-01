@@ -535,8 +535,9 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
             if confirmation == 'y':
                 for i in range(len(data)):
                     unselect = data[i].key_value
-                    Machine.product_list[int(unselect)][2] += 1                 # restock ie unselect all items
-                    Machine.product_list[int(unselect)][3] = "no"
+                    Machine.product_list[int(unselect)][2] += 1                 # restocks each item per iteration
+                    if data[i].key_value == 1 or data[i].key_value == 2:
+                        Machine.product_list[int(unselect)][3] = "no"   # ensures sugar option defaults back to 'no'a
 
                     # restock all sugar if item had sugar selected as 'yes' (from tea + coffee)
                     if data[i].sugar == "yes":
@@ -546,7 +547,9 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
                         Machine.supply_list[6][1] += 1
 
                 Machine.current_user_transaction_record = []        # clear -- remove all transaction objects
-                main_menu()
+                display_transactions_summary(Machine.current_user_transaction_record)
+                select_product()
+
 
             elif confirmation == 'n':
                 display_transactions_summary(Machine.current_user_transaction_record)
