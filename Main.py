@@ -1,4 +1,4 @@
-# Date: February 2023 (01/02/23)
+# Date: February 2023 (02/02/23)
 # Name: Andrew Matysiak
 # Description: VENDING_MACHINE v1.0
 
@@ -250,15 +250,67 @@ def insert_coins(transactions_total):
 
         try:
 
-            inserted_coin = input("INSERT COINS or 'R' to REFUND coins/EXIT payment: ").strip().lower()
+            inserted_coin = input("INSERT COINS, 'R' to REFUND coin(s) or 'C' to RESTART"
+                                  "(coins refunded\current selections cleared): ").strip().lower()
             print("")
-            if inserted_coin == 'r':
+            if inserted_coin == 'c':
+                while True:
+                    confirmation = input("Do you wish to 'Y' CANCEL all transaction(s) or"
+                                         " 'N' continue SELECTING...").strip().lower()
+                    if confirmation == 'y':
+                        for i in range(len(Machine.current_user_transaction_record)):
+                            unselect = Machine.current_user_transaction_record[i].key_value
+                            Machine.product_list[int(unselect)][2] += 1  # restocks each item per iteration
+                            if Machine.current_user_transaction_record[i].key_value == 1 or\
+                                    Machine.current_user_transaction_record[i].key_value == 2:
+                                Machine.product_list[int(unselect)][
+                                    3] = "no"  # ensures sugar option defaults back to 'no'
+
+                            # restock all sugar if item had sugar selected as 'yes' (from tea + coffee)
+                            if Machine.current_user_transaction_record[i].sugar == "yes":
+                                Machine.supply_list[5][1] += 1
+
+                            if Machine.current_user_transaction_record[i].name == "Coffee":  # restock Coffee Beans
+                                Machine.supply_list[6][1] += 1
+
+                        Machine.current_user_transaction_record = []  # clear -- remove all transaction objects
+                        display_transactions_summary(Machine.current_user_transaction_record)
+                        print("")
+                        refund_coins(Machine.transaction_history)
+                        print("")
+                        main_menu()
+
+                    elif confirmation == 'n':
+                        display_transactions_summary(Machine.current_user_transaction_record)
+                        break
+
+
+
+
+
+
+
+
+
+            elif inserted_coin == 'r':
                 refund_coins(Machine.transaction_history)
                 print("\n")
 
                 display_transactions_summary(Machine.current_user_transaction_record)
                 # this procedure is to go back out of coin insertion mode
                 post_selection_options(Machine.current_user_transaction_record)
+
+
+
+
+
+
+
+
+
+
+
+
 
             elif Machine.valid_coins.count(int(inserted_coin)) > 0:  # check if valid coin entered
                 total_coins_entered += int(inserted_coin)
@@ -521,16 +573,16 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
     """
 
     while True:
-        choice = input("Select 'P' to PAY, 'C' to CONTINUE BUYING, 'X' to ROLLBACK CURRENT transaction"
-                       " , 'R' to CANCEL all transactions: ").strip().lower()
+        choice = input("Select 'P' to PAY, 'S' to continue SELECTING, 'X' to ROLLBACK last selection"
+                       " , 'C' to CLEAR selections: ").strip().lower()
         print("")
-        if is_valid(choice, ['p', 'c', 'x', 'r']):
+        if is_valid(choice, ['p', 's', 'x', 'c']):
             break
 
-    if choice == 'r':
+    if choice == 'c':    # or choice == 'r':
         while True:
             confirmation = input("Do you wish to 'Y' CANCEL all transaction(s) or"
-                                 " 'N' continue BUYING...").strip().lower()
+                                 " 'N' continue SELECTING...").strip().lower()
             if confirmation == 'y':
                 for i in range(len(data)):
                     unselect = data[i].key_value
@@ -547,7 +599,13 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
 
                 Machine.current_user_transaction_record = []        # clear -- remove all transaction objects
                 display_transactions_summary(Machine.current_user_transaction_record)
-                select_product()
+
+                #if choice == 'r':
+                #   refund_coins(Machine.transaction_history)
+
+                main_menu()
+                #select_product()
+
 
 
             elif confirmation == 'n':
@@ -564,7 +622,7 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
         else:
             insert_coins(Machine.user_total_cost)
 
-    elif choice == 'c':                     # selecting 'c' 'LOCKS-IN' the price of item into BUCKET
+    elif choice == 's':                     # selecting 'c' 'LOCKS-IN' the price of item into BUCKET
         print("running TOTAL owing: ${:.2f}".format(running_total_owing() / 100))
         select_product()
 
