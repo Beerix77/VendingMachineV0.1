@@ -1,6 +1,6 @@
-# Date: January 2023 (31/01/22)
+# Date: February 2023 (01/02/23)
 # Name: Andrew Matysiak
-# Description: VENDING_MACHINE v0.1 --- CURRENT WIP
+# Description: VENDING_MACHINE v1.0
 
 # NOTES:
 #
@@ -29,7 +29,8 @@ from datetime import datetime
 
 class Machine:
     """
-    class Machine contains
+    Machine class contains a number of class variables which allows the program to then use them globally
+    throughout the program.
     """
     # VARIABLES:
     # =========
@@ -62,9 +63,12 @@ class Machine:
 
 class Item:
     """
-    Class Item consists of instance variables which are used when objects ...
+    Item class is used as the blueprint for product object instantiation.
     """
 
+    """
+        Item class constructor
+        """
     def __init__(self, name, price, count, sugar, time, stir, key_value):
         self.name = name
         self.price = price
@@ -75,13 +79,7 @@ class Item:
         self.key_value = key_value
 
 
-
-    # CLASS CONSTRUCTOR:
-    # =================
-
-
-    def __str__(self):      # print object if 'print(object_name instance of class Item)'
-
+    def __str__(self):
         return "{}\nPrice: ${:.2f}\nCount: {}\nOption to add sugar: {}\nTime to Prepare/Dispense: {}" \
                " mins\nStirring option: '{}'\nSelection number{}".format(self.name, self.price / 100, self.count,
                                                                          self.sugar, self.time, self.stir,
@@ -294,7 +292,7 @@ def insert_coins(transactions_total):
 
     """
     Function to simulate coin insertion. User must enter correct coin denominations. Wait time and dispension of item(s)
-    is also simulated. Once item(s) are dispensed the user 'bucket' is reset.
+    is also simulated. Once item(s) are dispensed the user 'bucket' is reset. Raises ValueError exception.
 
     :param transactions_total: int value of the total cost of selected items.
     :return: None
@@ -448,7 +446,7 @@ def maintenance_menu():
 
     """
     Function to display various customer/admin options and executing restocking options (coins/products/supplies). Also
-     used for changing machine status and writing statistical data to a 'transactions.txt' file.
+     used for changing machine status and writing statistical data to a 'transactions.txt' file. Raises ValueError exception.
 
     :return: None
     """
@@ -675,7 +673,7 @@ def running_total_owing():
 def select_product():
     """
     Function that creates Object instances for each item that is selected by user and, provides further options based
-     on user item choice.
+     on user item choice. Raises ValueError and KeyError exceptions.
 
     :return: None
     """
