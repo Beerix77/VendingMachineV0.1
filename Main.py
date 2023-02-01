@@ -579,14 +579,7 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
 
                 Machine.current_user_transaction_record = []        # clear -- remove all transaction objects
                 display_transactions_summary(Machine.current_user_transaction_record)
-
-                #if choice == 'r':
-                #   refund_coins(Machine.transaction_history)
-
                 main_menu()
-                #select_product()
-
-
 
             elif confirmation == 'n':
                 display_transactions_summary(Machine.current_user_transaction_record)
