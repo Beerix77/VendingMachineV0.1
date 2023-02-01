@@ -18,6 +18,7 @@
 #       listed separately (in the docstring). The class constructor should be documented in the docstring for its
 #       __init__ method. Individual methods should be documented by their own docstring.
 
+# TODO: Adjust Machine coin/product/supply stocks to suitable levels...
 
 from datetime import datetime
 
