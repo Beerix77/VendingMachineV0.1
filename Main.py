@@ -310,14 +310,14 @@ def insert_coins(transactions_total):
             print("Please enter a valid coin 'cents value' or press 'R' to refund...")
 
     print("TOTAL: ${:.2f}".format(total_coins_entered / 100))
-    print("")
 
     if total_coins_entered >= transactions_total:
         change = total_coins_entered - transactions_total
         print("CHANGE OWED: ${:.2f}".format(change / 100))
 
+    print("")
     print("Wait Time is", wait_time(Machine.current_user_transaction_record), "min(s)...")
-    print("ITEM(S) DISPENSED:")
+    print("ITEM(S) and CHANGE DISPENSED:")
 
     for i in Machine.current_user_transaction_record:
         print(i.name)                                       # dispense items after >= correct coins inserted
