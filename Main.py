@@ -2,29 +2,7 @@
 # Name: Andrew Matysiak
 # Description: VENDING_MACHINE v1.0
 
-# NOTES:
-#
-# todo: At the beginning of each function, there is a string within triple quotation marks, called a docstring.
-#       It is used to explain how the function behaves. Style of the docstring can be found in PEP 257 Docstring
-#       Conventions.
-
-#       The docstring for a 'function' or method should summarize its behavior and document its arguments, return value(s)
-#       , side effects, exceptions raised, and restrictions on when it can be called (all if applicable).
-#       Optional arguments should be indicated. It should be documented whether keyword arguments are part of the
-#       interface.
-
-#       The docstring for a 'class' should summarize its behavior and list the public methods and instance variables. If
-#       the class is intended to be subclassed, and has an additional interface for subclasses, this interface should be
-#       listed separately (in the docstring). The class constructor should be documented in the docstring for its
-#       __init__ method. Individual methods should be documented by their own docstring.
-
-# TODO: Adjust Machine coin/product/supply stocks to suitable levels...
-
 from datetime import datetime
-
-
-# CLASSES:
-# ========
 
 
 class Machine:
@@ -32,15 +10,14 @@ class Machine:
     Machine class contains a number of class variables which allows the program to then use them globally
     throughout the program.
     """
-    # VARIABLES:
-    # =========
+
     product_list = {1: ["Coffee", 200, 10, "no", 3, ""],
                     2: ["Tea", 150, 8, "no", 2, ""],
                     3: ["Coke", 250, 3, "n/a", 1, ""],
                     4: ["Juice", 400, 0, "n/a", 1, ""]}
 
-    supply_list = {5: ["Sugar", 10],
-                   6: ["Coffee Beans", 0]}
+    supply_list = {5: ["Sugar", 5],
+                   6: ["Coffee Beans", 5]}
 
     current_date = datetime.now().strftime("%d-%m-20%y")
 
@@ -84,47 +61,10 @@ class Item:
                " mins\nStirring option: '{}'\nSelection number{}".format(self.name, self.price / 100, self.count,
                                                                          self.sugar, self.time, self.stir,
                                                                          self.key_value)
-"""
-    # CLASS METHODS:
-    # =============
-    def get_name(self):
-        return self.name
 
-    def get_price(self):
-        return self.price
-
-    def get_count(self):
-        return self.count
-
-    def get_sugar(self):
-        return self.sugar
-
-    def get_time(self):
-        return self.time
-
-    def get_stir(self):
-        return self.stir
-
-    def get_key(self):
-        return self.key_value
-
-
-class User:
-
-    # CLASS INSTANCE VARIABLES:
-    # ==================
-    def __init__(self, selections, total_owed):
-        self.selections = selections
-        self.total_owed = total_owed
-
-    def __str__(self):
-        return "{}\nPrice: ${:.2f}\n".format(self.selections, self.total_owed / 100)
-"""
 
 # FUNCTIONS:
 # =========
-
-
 def calculate_change(data, machine_coins, change_dispensed):
     # [Date, coins, items], [Machine.coin_reserve], [change calculated(value)]]
     """
@@ -208,11 +148,13 @@ def calculate_change(data, machine_coins, change_dispensed):
             print("Unfortunately Vending Machine does not contain enough coins to give CORRECT change.. "
                   "Contact Admin/Maintenance mode to restock...")
 
+            # coins of 'change-bucket' are returned to coin_reserve (checks if any coins were in bucket first)
             if len(change_counter) >= 1:
                 for i in change_counter:
-                    Machine.coin_reserve[i] += 1        # coins of 'change-bucket' are returned to coin_reserve (checks if any coins were in bucket first)
+                    Machine.coin_reserve[i] += 1
 
-            change_counter = ["No change given...<not enough coin reserve to dispense correct change>"]      # coin values List is replaced with message
+            # coin values List is replaced with message
+            change_counter = ["No change given...<not enough coin reserve to dispense correct change>"]
 
     elif change_dispensed == 0:
         change_counter = ["No change given...<Correct coins were inserted>"]
@@ -312,11 +254,12 @@ def insert_coins(transactions_total):
             inserted_coin = input("INSERT COINS or 'R' to REFUND coins/EXIT payment: ").strip().lower()
             print("")
             if inserted_coin == 'r':
-                refund_coins(Machine.transaction_history)   # argument is a list of string numbers
+                refund_coins(Machine.transaction_history)
                 print("\n")
 
                 display_transactions_summary(Machine.current_user_transaction_record)
-                post_selection_options(Machine.current_user_transaction_record)     # this procedure is to go back out of coin insertion mode
+                # this procedure is to go back out of coin insertion mode
+                post_selection_options(Machine.current_user_transaction_record)
 
             elif Machine.valid_coins.count(int(inserted_coin)) > 0:  # check if valid coin entered
                 total_coins_entered += int(inserted_coin)
@@ -361,7 +304,8 @@ def insert_coins(transactions_total):
         print("$0.00 change")
 
     else:
-        for i in (calculate_change(Machine.transaction_history, Machine.coin_reserve, change)):   #[Date, coins, items], [machine coins], [change given]]
+        # ([Date, coins, items], [machine coins], [change given])
+        for i in (calculate_change(Machine.transaction_history, Machine.coin_reserve, change)):
             if type(i) == str:
                 print(i)
             else:
@@ -430,7 +374,8 @@ def main_menu():
         main_menu()
 
     elif menu_choice == 'b' and Machine.machine_state == "* MAINTENANCE *":
-        print("WARNING!!! Vending Machine is currently in * MAINTENANCE * mode...Use Customer\Admin Menu to change status...")
+        print("WARNING!!! Vending Machine is currently in * MAINTENANCE * mode..."
+              "Use Customer\Admin menu to change status...")
         main_menu()
 
     elif menu_choice == 'b':
@@ -446,7 +391,8 @@ def maintenance_menu():
 
     """
     Function to display various customer/admin options and executing restocking options (coins/products/supplies). Also
-     used for changing machine status and writing statistical data to a 'transactions.txt' file. Raises ValueError exception.
+     used for changing machine status and writing statistical data to a 'transactions.txt' file.
+      Raises ValueError exception.
 
     :return: None
     """
@@ -472,12 +418,14 @@ def maintenance_menu():
 
         while True:
             try:
-                restock = input("Enter a valid coin denomination to restock (in cents), 'M' to return to CUSTOMER MENU: ").strip().lower()
+                restock = input("Enter a valid coin denomination to restock (in cents), "
+                                "'M' return to CUSTOMER MENU: ").strip().lower()
                 if restock == 'm':
                     maintenance_menu()
 
                 elif int(restock) in Machine.coin_reserve.keys():
-                    coin_amount = int(input("Coin found...Enter number of ${:.2f} coins to stock: ".format(int(restock) / 100)))
+                    coin_amount = int(input("Coin found...Enter number of ${:.2f} coins to stock:"
+                                            " ".format(int(restock) / 100)))
                     print("RESTOCKING...")
                     Machine.coin_reserve[int(restock)] += coin_amount
                     display_coin_reserve()
@@ -494,7 +442,8 @@ def maintenance_menu():
             list_products()
             display_supply_list()
             try:
-                restock = input("Enter item number (1-6) to restock, 'M' to return to CUSTOMER/ADMIN MENU: ").strip().lower()
+                restock = input("Enter item number (1-6) to restock, 'M' to return"
+                                " to CUSTOMER/ADMIN MENU: ").strip().lower()
                 if restock == 'm':
                     maintenance_menu()
 
@@ -573,27 +522,30 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
     """
 
     while True:
-        choice = input("Select 'P' to PAY, 'C' to CONTINUE BUYING, 'X' to rollback CURRENT transaction ('R' to RESTART all transactions and clear history): ").strip().lower()
+        choice = input("Select 'P' to PAY, 'C' to CONTINUE BUYING, 'X' to rollback CURRENT transaction"
+                       " ('R' to RESTART all transactions and clear history): ").strip().lower()
         print("")
         if is_valid(choice, ['p', 'c', 'x', 'r']):
             break
 
     if choice == 'r':
         while True:
-            confirmation = input("Do you wish to 'Y' CANCEL all transaction(s) or 'N' continue BUYING...").strip().lower()  # todo: is this S-007??
+            confirmation = input("Do you wish to 'Y' CANCEL all transaction(s) or"
+                                 " 'N' continue BUYING...").strip().lower()
             if confirmation == 'y':
                 for i in range(len(data)):
                     unselect = data[i].key_value
                     Machine.product_list[int(unselect)][2] += 1                 # restock ie unselect all items
                     Machine.product_list[int(unselect)][3] = "no"
 
-                    if data[i].sugar == "yes":                      # restock all sugar if item had sugar selected as 'yes' (from tea + coffee) (HARD RESET OPTION)
+                    # restock all sugar if item had sugar selected as 'yes' (from tea + coffee)
+                    if data[i].sugar == "yes":
                         Machine.supply_list[5][1] += 1
 
                     if data[i].name == "Coffee":           # restock Coffee Beans
                         Machine.supply_list[6][1] += 1
 
-                Machine.current_user_transaction_record = []        # clear cache -- remove all transaction objects
+                Machine.current_user_transaction_record = []        # clear -- remove all transaction objects
                 main_menu()
 
             elif confirmation == 'n':
@@ -602,7 +554,7 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
 
     elif choice == 'p':
         running_total_owing()
-        display_transactions_summary(data)              # need to add final item in bucket, 'cost' to total owing
+        display_transactions_summary(data)              # need to add final item in bucket + 'cost' to total owing
 
         if len(data) < 1:
             print("Cannot proceed to Payment as 0 items currently selected...")
@@ -610,20 +562,21 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
         else:
             insert_coins(Machine.user_total_cost)
 
-    elif choice == 'c':                     # pressing 'c' LOCKS-IN the price of item in BUCKET
+    elif choice == 'c':                     # selecting 'c' 'LOCKS-IN' the price of item into BUCKET
         print("running TOTAL owing: ${:.2f}".format(running_total_owing() / 100))
         select_product()
 
     else:
-        # user has chosen 'X'                                   # this is U-007
-        if len(data) == 0:   # only for if 1st choice was not available and try  to 'X' rollback -SOLVED delete??
+        # user has chosen 'X'
+        if len(data) == 0:   # this is only True if 1st choice was not available and try to 'X' rollback
             print("WARNING: You have no items selected...")
 
         elif len(data) > 0:  # if there is at least 1 Object item in List....
             last_item_selected_key = data[-1].key_value                     # data = current_user_transaction_record
             Machine.product_list[int(last_item_selected_key)][2] += 1       # restock item
 
-            if int(data[-1].key_value) == 1 and data[-1].sugar == "yes":    # restocks sugar + coffee beans (coffee) and changes productlist back to "no"
+            # restocks sugar + coffee beans (coffee) and changes product_list value back to "no"
+            if int(data[-1].key_value) == 1 and data[-1].sugar == "yes":
                 Machine.supply_list[5][1] += 1
                 Machine.supply_list[6][1] += 1
                 Machine.product_list[int(last_item_selected_key)][3] = "no"
@@ -649,7 +602,7 @@ def refund_coins(coins):
 
     print("Coins refunded: ")
     for i in coins:
-        print("${:.2f}".format(i / 100), end=" ")   # 'end' allows horizontal printing
+        print("${:.2f}".format(i / 100), end=" ")
     if len(coins) == 0:
         print("No coins refunded as none were inserted...")
     Machine.transaction_history = []    # reset coin history
@@ -696,15 +649,18 @@ def select_product():
                 main_menu()
 
             else:
-                if Machine.product_list[int(selection)][2] == 0:  # Count == 0 thus NO Object of class Item will be created
+                # Count == 0 thus no Object of class Item will be created
+                if Machine.product_list[int(selection)][2] == 0:
                     print("Unfortunately there is 0", Machine.product_list[int(selection)][0], "remaining.\n")
                     post_selection_options(Machine.current_user_transaction_record)
 
-                elif int(selection) == 1 and Machine.supply_list[6][1] == 0:    # if 'Coffee' chosen and 0 coffee beans...
+                # if 'Coffee' chosen and 0 coffee beans...
+                elif int(selection) == 1 and Machine.supply_list[6][1] == 0:
                     print("Unfortunately there are no more COFFEE BEANS for coffee...\n")
                     continue
 
-                elif Machine.product_list[int(selection)][2] > 0:   # create an OBJECT of class ITEM.. IF selection > 0 count value
+                # create an OBJECT of class ITEM... IF selection > 0 count value
+                elif Machine.product_list[int(selection)][2] > 0:
                     Machine.product_list[int(selection)][2] -= 1    # subtracts item from product_list
 
                     if int(selection) == 1:                        # if choose coffee subtract coffee beans also
@@ -738,7 +694,7 @@ def select_product():
                                     break
 
                             if stir == 'a' or stir == 'auto':
-                                print("Your sugar addition to", current_user_item.name, "will be AUTOMATICALLY stirred.")
+                                print("Your sugar addition to", current_user_item.name, "will be AUTO stirred.")
                                 current_user_item.stir = "AUTO"
 
                             else:
@@ -747,7 +703,8 @@ def select_product():
                         elif (sugar_option == 'y' or sugar_option == 'yes') and Machine.supply_list[5][1] == 0:
                             print("Unfortunately Vending Machine is OUT OF SUGAR...")
 
-                    Machine.current_user_transaction_record.append(current_user_item)              # this will be a list == [[transaction object 1], [...], [...]]
+                    # this will be a list == [[transaction object 1], [...], [...]]
+                    Machine.current_user_transaction_record.append(current_user_item)
                     display_transactions_summary(Machine.current_user_transaction_record)
 
                     print("")
