@@ -440,10 +440,10 @@ def main_menu():
 
     else:
         welcome_customer()
-        maintenance()
+        maintenance_menu()
 
 
-def maintenance():
+def maintenance_menu():
 
     """
     Function to display various customer/admin options and executing restocking options (coins/products/supplies). Also
@@ -475,7 +475,7 @@ def maintenance():
             try:
                 restock = input("Enter a valid coin denomination to restock (in cents), 'M' to return to CUSTOMER MENU: ").strip().lower()
                 if restock == 'm':
-                    maintenance()
+                    maintenance_menu()
 
                 elif int(restock) in Machine.coin_reserve.keys():
                     coin_amount = int(input("Coin found...Enter number of ${:.2f} coins to stock: ".format(int(restock) / 100)))
@@ -497,7 +497,7 @@ def maintenance():
             try:
                 restock = input("Enter item number (1-6) to restock, 'M' to return to CUSTOMER/ADMIN MENU: ").strip().lower()
                 if restock == 'm':
-                    maintenance()
+                    maintenance_menu()
 
                 elif int(restock) in Machine.product_list:
                     print("You have chosen:", Machine.product_list[int(restock)][0])
@@ -540,18 +540,18 @@ def maintenance():
         print(file_statistics.read())
         file_statistics.close()
 
-        maintenance()
+        maintenance_menu()
 
     elif customer == 'd':
         if Machine.machine_state == "* WORKING *":
             Machine.machine_state = "* MAINTENANCE *"
             welcome_customer()
-            maintenance()
+            maintenance_menu()
 
         else:
             Machine.machine_state = "* WORKING *"
             welcome_customer()
-            maintenance()
+            maintenance_menu()
 
     elif customer == 'r':
         Machine.transaction_history.clear()
