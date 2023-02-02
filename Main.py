@@ -333,6 +333,10 @@ def insert_coins(transactions_total):
     Machine.current_user_transaction_record = []    # reset after dispense
 
     if change == 0:
+        for i in Machine.transaction_history:
+            if type(i) == int:
+                Machine.coin_reserve[i] += 1     # adds coins to machine reserve (exact coins inserted)
+
         print("$0.00 change")
 
     else:
