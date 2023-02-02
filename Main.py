@@ -147,7 +147,8 @@ def calculate_change(data, machine_coins, change_dispensed):
             print("Unfortunately Vending Machine does not contain enough coins to give CORRECT change.. "
                   "Contact Admin/Maintenance mode to restock...")
 
-            # coins of 'change-bucket' are returned to coin_reserve (checks if any coins were in bucket first)
+            # if unable to give change, coins of 'change-bucket' are returned to
+            # coin_reserve (checks if any coins were in bucket first)
             if len(change_counter) >= 1:
                 for i in change_counter:
                     Machine.coin_reserve[i] += 1
@@ -307,9 +308,9 @@ def insert_coins(transactions_total):
                 print("\n")
 
         except ValueError:
-            print("Please enter a valid coin 'cents value' or press 'R' to refund...")
+            print("Please enter a valid coin in cents...")
 
-    print("TOTAL: ${:.2f}".format(total_coins_entered / 100))
+    print("TOTAL entered: ${:.2f}".format(total_coins_entered / 100))
 
     if total_coins_entered >= transactions_total:
         change = total_coins_entered - transactions_total
@@ -553,7 +554,7 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
     """
 
     while True:
-        choice = input("Select 'P' to PAY, 'S' to continue SELECTING, 'X' to ROLLBACK last selection"
+        choice = input("Select 'P' to PAY, 'S' to CONTINUE SELECTING, 'X' to ROLLBACK last selection"
                        " , 'C' to CLEAR selections: ").strip().lower()
         print("")
         if is_valid(choice, ['p', 's', 'x', 'c']):
