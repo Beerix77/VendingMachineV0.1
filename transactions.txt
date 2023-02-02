@@ -1,7 +1,0 @@
- 
-Date: 01-02-2023
-Coin(s) inserted: $2.00
-Coin(s) inserted: $2.00
-Coin(s) inserted: $2.00
-Item purchased: Coffee
-Item purchased: Coke
