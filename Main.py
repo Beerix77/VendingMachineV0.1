@@ -559,7 +559,7 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
 
     while True:
         choice = input("Select 'P' to PAY, 'S' to CONTINUE SELECTING, 'X' to ROLLBACK last selection"
-                       " , 'C' to CLEAR selections: ").strip().lower()
+                       " , 'C' to CLEAR all selections: ").strip().lower()
         print("")
         if is_valid(choice, ['p', 's', 'x', 'c']):
             break
