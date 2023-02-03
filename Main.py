@@ -11,10 +11,10 @@ class Machine:
     throughout the program.
     """
 
-    product_list = {1: ["Coffee", 200, 10, "no", 3, ""],
-                    2: ["Tea", 150, 8, "no", 2, ""],
-                    3: ["Coke", 250, 3, "n/a", 1, ""],
-                    4: ["Juice", 400, 0, "n/a", 1, ""]}
+    product_list = {1: ["Coffee", 200, 10, "no", 3, "n/a"],
+                    2: ["Tea", 150, 8, "no", 2, "n/a"],
+                    3: ["Coke", 250, 3, "n/a", 1, "n/a"],
+                    4: ["Juice", 400, 0, "n/a", 1, "n/a"]}
 
     supply_list = {5: ["Sugar", 5],
                    6: ["Coffee Beans", 5]}
@@ -209,9 +209,11 @@ def display_transactions_summary(data):
     else:
         for i in range(len(data)):
             if data[i].name == 'Tea':
-                print("{}\t\t\t\t\t${:.2f}\t\tadd sugar: {}".format(data[i].name, data[i].price / 100, data[i].sugar))
+                print("{}\t\t\t\t\t${:.2f}\t\tadd sugar: {}\t\t\tstir: {}".format(data[i].name, data[i].price / 100,
+                                                                                  data[i].sugar, data[i].stir))
             else:
-                print("{}\t\t\t\t${:.2f}\t\tadd sugar: {}".format(data[i].name, data[i].price / 100, data[i].sugar))
+                print("{}\t\t\t\t${:.2f}\t\tadd sugar: {}\t\tstir: {}".format(data[i].name, data[i].price / 100,
+                                                                              data[i].sugar, data[i].stir))
 
 
 def goodbye_message():
@@ -726,16 +728,17 @@ def select_product():
                             Machine.supply_list[5][1] -= 1  # subtracts sugar from SUPPLY LIST
 
                             while True:
-                                stir = input("MANUAL or AUTO stirring sugar? ").strip().lower()
+                                stir = input("MANUAL(M) or AUTO(A) stirring sugar? ").strip().lower()
 
                                 if is_valid(stir, ['a', 'm', 'auto', 'manual']):
                                     break
 
                             if stir == 'a' or stir == 'auto':
-                                print("Your sugar addition to", current_user_item.name, "will be AUTO stirred.")
+                                print("The sugar addition to", current_user_item.name, "will be AUTO stirred.")
                                 current_user_item.stir = "AUTO"
 
                             else:
+                                print("The sugar addition to", current_user_item.name, "will be MANUALLY stirred.")
                                 current_user_item.stir = "MANUAL"
 
                         elif (sugar_option == 'y' or sugar_option == 'yes') and Machine.supply_list[5][1] == 0:
