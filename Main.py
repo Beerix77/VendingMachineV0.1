@@ -212,8 +212,8 @@ def display_transactions_summary(data):
                 print("{}\t\t\t\t\t${:.2f}\t\tadd sugar: {}\t\t\tstir: {}".format(data[i].name, data[i].price / 100,
                                                                                   data[i].sugar, data[i].stir))
             else:
-                print("{}\t\t\t\t${:.2f}\t\tadd sugar: {}\t\tstir: {}".format(data[i].name, data[i].price / 100,
-                                                                              data[i].sugar, data[i].stir))
+                print("{}\t\t\t\t${:.2f}\t\tadd sugar: {}\t\t\tstir: {}".format(data[i].name, data[i].price / 100,
+                                                                                data[i].sugar, data[i].stir))
 
 
 def goodbye_message():
