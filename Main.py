@@ -17,7 +17,7 @@ class Machine:
                     4: ["Juice", 400, 0, "n/a", 1, "n/a"]}
 
     supply_list = {5: ["Sugar", 5],
-                   6: ["Coffee Beans", 5]}
+                   6: ["Coffee Beans", 10]}
 
     current_date = datetime.now().strftime("%d-%m-20%y")
 
