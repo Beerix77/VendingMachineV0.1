@@ -1,4 +1,4 @@
-# Date: February 2023 (02/02/23)
+# Date: February 2023 (06/02/23)
 # Name: Andrew Matysiak
 # Description: VENDING_MACHINE v1.0
 
@@ -228,7 +228,6 @@ def goodbye_message():
     print("=" * 61)
     print("*" * 5 + " THANKYOU for using PYTHON VENDING MACHINE... GOODBYE!!! ")
     print("=" * 61)
-
     turn_on()
 
 
