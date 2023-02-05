@@ -258,7 +258,7 @@ def insert_coins(transactions_total):
             if inserted_coin == 'c':
                 while True:
                     confirmation = input("Do you wish to 'Y' CANCEL all transaction(s) or"
-                                         " 'N' continue SELECTING...").strip().lower()
+                                         " 'N' continue...").strip().lower()
                     if confirmation == 'y':
                         for i in range(len(Machine.current_user_transaction_record)):
                             unselect = Machine.current_user_transaction_record[i].key_value
