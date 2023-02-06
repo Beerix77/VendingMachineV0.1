@@ -474,7 +474,6 @@ def maintenance_menu():
                 print("Please enter an integer number...")
 
     elif customer == 'b':
-
         while True:
             list_products()
             display_supply_list()
