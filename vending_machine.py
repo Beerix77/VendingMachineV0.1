@@ -224,6 +224,7 @@ def goodbye_message():
     print("=" * 61)
     print("*" * 5 + " THANKYOU for using PYTHON VENDING MACHINE... GOODBYE!!! ")
     print("=" * 61)
+
     turn_on()
 
 
@@ -439,10 +440,11 @@ def maintenance_menu():
         print("d) Set Machine to WORKING/MAINTENANCE state")
         print("r) RESET Machine (deletes all statistics data)")
         print("m) Return to MAIN MENU (User)")
+        print("x) Turn OFF machine")
 
         customer = input("> ").strip().lower()
 
-        if is_valid(customer, ['a', 'b', 'c', 'd', 'm', 'r']):
+        if is_valid(customer, ['a', 'b', 'c', 'd', 'm', 'r', 'x']):
             break
 
     if customer == 'a':
@@ -502,23 +504,30 @@ def maintenance_menu():
         print("*" * 24 + " STATISTICS " + "*" * 24)
         print("Writing TRANSACTION HISTORY to file...")
 
-        # WRITE:
-        file_statistics = open("transactions.txt", "w")
-        for i in Machine.statistics:
-            file_statistics.writelines(" \n")
+        try:
+            # WRITE:
+            file_statistics = open("transactions.txt", "a")
+            for i in Machine.statistics:
+                file_statistics.writelines(" \n")
 
-            file_statistics.writelines("Date: {}\n".format(i[0]))
-            for j in i[1:]:
-                if type(j) == str:
-                    file_statistics.writelines("Item purchased: {}\n".format(j))
-                else:
-                    file_statistics.writelines("Coin(s) inserted: ${:.2f}\n".format(j / 100))
-        file_statistics.close()
+                file_statistics.writelines("Date: {}\n".format(i[0]))
+                for j in i[1:]:
+                    if type(j) == str:
+                        file_statistics.writelines("Item purchased: {}\n".format(j))
+                    else:
+                        file_statistics.writelines("Coin(s) inserted: ${:.2f}\n".format(j / 100))
+            file_statistics.close()
 
-        # READ:
-        file_statistics = open("transactions.txt", "r")
-        print(file_statistics.read())
-        file_statistics.close()
+            # READ:
+            file_statistics = open("transactions.txt", "r")
+            print(file_statistics.read())
+            file_statistics.close()
+
+
+        except FileNotFoundError:
+            print("ERROR ...STATISTICS file is missing!...")
+
+
 
         maintenance_menu()
 
@@ -536,7 +545,16 @@ def maintenance_menu():
     elif customer == 'r':
         Machine.transaction_history.clear()
         Machine.statistics.clear()
+        try:
+            reset = open("transactions.txt", "w")
+            reset.close()
+        except FileNotFoundError:
+            print("Error clearing data from machine...")
         turn_on()
+
+
+    elif customer == 'x':
+        exit()
 
     else:
         welcome_user(Machine.machine_state)
