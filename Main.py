@@ -1,6 +1,6 @@
 # Date: February 2023 (06/02/23)
 # Name: Andrew Matysiak
-# Description: VENDING_MACHINE v1.0
+# Description: Assessment 2: Vending machine program ITO4133 Introduction to Python
 
 from datetime import datetime
 
