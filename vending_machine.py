@@ -426,7 +426,7 @@ def maintenance_menu():
     """
     Function to display various customer/admin options and executing restocking options (coins/products/supplies). Also
      used for changing machine status and writing statistical data to a 'transactions.txt' file.
-      Raises ValueError exception.
+      Raises ValueError and FileNotFoundError exceptions.
 
     :return: None
     """
@@ -523,11 +523,8 @@ def maintenance_menu():
             print(file_statistics.read())
             file_statistics.close()
 
-
         except FileNotFoundError:
             print("ERROR ...STATISTICS file is missing!...")
-
-
 
         maintenance_menu()
 
@@ -551,7 +548,6 @@ def maintenance_menu():
         except FileNotFoundError:
             print("Error clearing data from machine...")
         turn_on()
-
 
     elif customer == 'x':
         exit()
