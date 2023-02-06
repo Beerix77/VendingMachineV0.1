@@ -692,7 +692,6 @@ def select_product():
 
             selection = input("Choose an item (1-" + str(len(Machine.product_list)) +
                               "), or ('M' to return to *** MAIN MENU ***): ").strip().lower()
-
             if selection == 'm':
                 main_menu()
 
