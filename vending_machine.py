@@ -548,7 +548,8 @@ def maintenance_menu():
         turn_on()
 
     elif customer == 'x':
-        exit()
+        while True:
+            exit()
 
     else:
         welcome_user(Machine.machine_state)
