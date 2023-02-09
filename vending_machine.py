@@ -613,7 +613,7 @@ def post_selection_options(data):  # data = current_user_transaction_record (Lis
         select_product()
 
     else:
-        # user has chosen 'X'
+        # user has chosen 'x'
         if len(data) == 0:   # this is only True if 1st choice was not available and try to 'X' rollback
             print("WARNING: You have no items selected...")
 
