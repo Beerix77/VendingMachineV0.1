@@ -327,6 +327,18 @@ def insert_coins(transactions_total):
     Machine.transaction_history.insert(0, Machine.current_date)
     Machine.statistics.append(Machine.transaction_history)
 
+    # WRITE:
+    file_statistics = open("transactions.txt", "w+")
+    for i in Machine.statistics:
+        file_statistics.writelines(" \n")
+        file_statistics.writelines("Date: {}\n".format(i[0]))
+        for j in i[1:]:
+            if type(j) == str:
+                file_statistics.writelines("Item purchased: {}\n".format(j))
+            else:
+                file_statistics.writelines("Coin(s) inserted: ${:.2f}\n".format(j / 100))
+    file_statistics.close()
+
     Machine.user_total_cost = 0                     # reset after dispense
     Machine.current_user_transaction_record = []    # reset after dispense
 
@@ -502,22 +514,9 @@ def maintenance_menu():
     elif customer == 'c':
         print("")
         print("*" * 24 + " STATISTICS " + "*" * 24)
-        print("Writing TRANSACTION HISTORY to file...")
+        print("Viewing TRANSACTION HISTORY file...")
 
         try:
-            # WRITE:
-            file_statistics = open("transactions.txt", "a")
-            for i in Machine.statistics:
-                file_statistics.writelines(" \n")
-
-                file_statistics.writelines("Date: {}\n".format(i[0]))
-                for j in i[1:]:
-                    if type(j) == str:
-                        file_statistics.writelines("Item purchased: {}\n".format(j))
-                    else:
-                        file_statistics.writelines("Coin(s) inserted: ${:.2f}\n".format(j / 100))
-            file_statistics.close()
-
             # READ:
             file_statistics = open("transactions.txt", "r")
             print(file_statistics.read())
@@ -525,7 +524,6 @@ def maintenance_menu():
 
         except FileNotFoundError:
             print("ERROR ...STATISTICS file is missing!...")
-
         maintenance_menu()
 
     elif customer == 'd':
