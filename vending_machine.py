@@ -548,7 +548,8 @@ def maintenance_menu():
         turn_on()
 
     elif customer == 'x':
-        quit()
+        while True:
+            quit()
 
     else:
         welcome_user(Machine.machine_state)
@@ -815,7 +816,7 @@ def welcome_customer():
     print("")
     print("*" * 59)
     print("*" * 5 + " Welcome to CUSTOMER ADMIN:", Machine.machine_state, "mode " + "*" * 5)
-    print("*" * 59 + "\t\t\t\t", Machine.current_date)
+    print("*" * 59 + "\t\t\t", Machine.current_date)
     print("")
     for i in Machine.product_list:
         if Machine.product_list[i][2] == 0:
